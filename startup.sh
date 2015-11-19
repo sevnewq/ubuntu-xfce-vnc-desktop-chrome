@@ -10,4 +10,5 @@ mkdir -p /var/run/sshd
 /bin/bash
 
 # open google chrome
-google-chrome-stable --user-data-dir=/root
+/bin/bash google-chrome-stable --user-data-dir=/root
+#google-chrome-stable
