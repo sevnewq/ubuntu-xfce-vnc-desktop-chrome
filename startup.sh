@@ -10,6 +10,4 @@ mkdir -p /var/run/sshd
 /bin/bash
 
 # open google chrome
-#google-chrome-stable --user-data-dir=/root
-
-ping 8.8.8.8
+google-chrome-stable --user-data-dir=/root
