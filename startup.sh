@@ -8,3 +8,5 @@
 
 # start a shell
 /bin/bash
+
+/bin/bash google-chrome-stable
