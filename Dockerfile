@@ -27,6 +27,9 @@ WORKDIR /root
 ADD startup.sh ./
 ADD supervisord.conf ./
 
+# prepare chrome extension to install
+ADD hbmgaobdhcamjlbgccanfldpnhkiaank.json /opt/google/chrome/extensions/
+
 EXPOSE 5900
 #EXPOSE 22
 
