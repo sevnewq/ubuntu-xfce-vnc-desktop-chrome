@@ -7,5 +7,4 @@ mkdir -p /var/run/sshd
 /usr/bin/supervisord -c /root/supervisord.conf
 
 # start a shell
-/bin/bash
-
+/bin/bash && vi ./tmp.sh
