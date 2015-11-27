@@ -1,0 +1,39 @@
+{
+	"version": "0.0.1",
+	"description": "Starwish Assassin",
+	"icons": {
+		"19": "icons/19.png",
+		"38": "icons/38.png",
+		"128": "icons/128.png"
+	},
+	"default_locale": "zh_TW",
+	"permissions": [
+		"http://starwish.algolreality.com/schedules/*",
+		"http://starwish.algolreality.com/casters/*",
+		"tabs"
+	],
+	"name": "Starwish Assassin",
+	"background": {
+		"page": "bg/bg.html",
+		"persistent": true
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"http://x.pps.tv/room/*"
+			],
+			"css": [
+				"bg/js/lib/jquery/jquery-1.11.3.min.map"
+			],
+			"js": [
+				"bg/js/lib/jquery/jquery-1.11.3.min.js",
+				"content/script.js"
+			]
+		}
+	],
+	"web_accessible_resources": [
+		"bg/js/lib/jquery/jquery-1.11.3.min.map"
+	],
+	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+	"manifest_version": 2
+}
