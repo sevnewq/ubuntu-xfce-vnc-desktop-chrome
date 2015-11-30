@@ -187,7 +187,68 @@ $(document).ready(function () {
 	getFocus();
 	loopSign();
 	loopClearDialog();
+
+	setTimeout(function () {
+		startSignin();
+	}, 5 * 1000);
+	
+	
+	checkOnLineLoop();
+
 });
+
+function checkOnLineLoop() {
+	checkOnLine();
+	setTimeout(function () {
+		checkOnLineLoop();
+	}, 10 * 1000);
+}
+
+function checkOnLine() {
+	if ($('.online-tips').length > 0) {
+		var reConnect = $('.online-tips .cr[data-click-type="reConnect"]');
+		if (reConnect.length == 1 && reConnect.is(":visible")) {
+			reConnect[0].click();
+		}
+	}
+}
+
+function startSignin() {
+	chrome.runtime.sendMessage({ code : 1 }, function (response) {
+		console.log(response);
+		var xiuid = response.xiuid;
+		var xiupassword = response.xiupassword;
+		console.log(xiuid, xiupassword);
+		if (xiuid.length > 0 && xiupassword.length > 0) {
+			signinAction(xiuid, xiupassword);
+		}
+		else {
+			console.log('no account received');
+		}
+		
+	});
+}
+
+function signinAction(id, pw) {
+	if ($('#headerUserCenter > .after-login').length > 0) {
+		console.log('alrealdy logged');
+		return;
+	}
+	if ($('.login-form._login').length == 0) {
+		$('#headerUserCenter > .nav-login > .login-enter')[0].click();
+		setTimeout(function () {
+			startSignin();
+		}, 5 * 1000);
+	}
+	else {
+		var form = $('.login-form._login > ._loginBd');
+
+		$('input[name="account"]', form).val(id);
+		$('input[name="passwd"]', form).val(pw);
+
+		$('.act > .btn.btn-sye', form)[0].click();
+	}
+}
 
 // not used in this verion 0.0.24 @ 2015/09/21
 // function clickSign() {

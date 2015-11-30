@@ -15,7 +15,7 @@ var livingCasterUrls = [];
 var waitActiveTabIds = [];
 var thresholdOpenUrl = 3;
 
-// checkFocusLoop();
+checkFocusLoop();
 // checkCastersUrl();
 
 function activeTabs() {
@@ -77,26 +77,29 @@ function changeActiveTab() {
 // 	});
 // }
 
-// function checkFocus() {
-// 	$.ajax({
-// 		type: 'GET',
-// 		dataType: 'json',
-// 		url: 'http://starwish.algolreality.com/casters/focus?_tt=' + (new Date().getTime()),
-// 		success: function (d, t, j) {
-// 			if (d.length == 1) {
-// 				checkFocusUrl = d[0].Caster.room;
-// 				if (jQuery.type(checkFocusUrl) !== 'string') {
-// 					checkFocusUrl = '';
-// 					// console.log('focus url update failed, type incorrect.');
-// 				}
-// 				// console.log('focus url updated to:', checkFocusUrl);
-// 			}
-// 			else {
-// 				// console.log('focus caster check failed. count:', d.length);
-// 			}
-// 		}
-// 	});
-// }
+function checkFocus(open) {
+	$.ajax({
+		type: 'GET',
+		dataType: 'json',
+		url: 'http://starwish.algolreality.com/casters/focus?_tt=' + (new Date().getTime()),
+		success: function (d, t, j) {
+			if (d.length == 1) {
+				checkFocusUrl = d[0].Caster.room;
+				if (jQuery.type(checkFocusUrl) !== 'string') {
+					checkFocusUrl = '';
+					// console.log('focus url update failed, type incorrect.');
+				}
+				// console.log('focus url updated to:', checkFocusUrl);
+				if (open && checkFocusUrl.length > 0) {
+					openRoomArray([checkFocusUrl]);
+				}
+			}
+			else {
+				// console.log('focus caster check failed. count:', d.length);
+			}
+		}
+	});
+}
 
 // function checkCasterUrlsLoop() {
 // 	checkCastersUrl();
@@ -104,10 +107,10 @@ function changeActiveTab() {
 // 	setTimeout(function () { checkCastersUrl(); }, checkCastersUrlTime);
 // }
 
-// function checkFocusLoop() {
-// 	checkFocus();
-// 	setTimeout(function () { checkFocusLoop(); }, checkFocusLoopTime);
-// }
+function checkFocusLoop() {
+	checkFocus();
+	setTimeout(function () { checkFocusLoop(); }, checkFocusLoopTime);
+}
 
 
 // setTimeout(function () {
@@ -115,14 +118,48 @@ function changeActiveTab() {
 // }
 // , 2 * 1000);
 
+
+var xiuacc = {
+	xiuid: "",
+	xiupassword: "",
+	clear: function () {
+		this.xiuid = "";
+		this.xiupassword = "";
+	},
+	set: function (d) {
+		this.xiuid = d.Xiuacc.xiuid;
+		this.xiupassword = d.Xiuacc.xiupassword;
+	}
+};
+
 $(document).ready(function () {
-	load();
+	$.ajax({
+		type: 'GET',
+		url: 'http://starwish.algolreality.com/xiuaccs/json?' + (new Date().getTime()),
+		dataType: 'json',
+		success: function (d, t, j) {
+			console.log(t);
+			console.log(d);
+			xiuacc.clear();
+			xiuacc.set(d);
+			
+		},
+		error: function (j, t, e) {
+			console.log(t);
+			xiuacc.clear();
+		},
+		complete: function () {
+			load();
+		}
+	});
+	// load();
 });
 
 function load() {
 	// ajax get online caster url
 	// getLivingCaster2();
-	openRoomArray([familyRoom]);
+	// openRoomArray([familyRoom]);
+	checkFocus(true);
 	
 	if (openTimer !== null) {
 		try { clearTimeout(openTimer); } catch (ex) { }
@@ -341,6 +378,11 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 			
 			console.log('cnt:', openCount);
 			break;
+		case 1:
+			var id = xiuacc.xiuid;
+			var pw = xiuacc.xiupassword;
+			console.log(id, pw);
+			sendResponse({ xiuid: id, xiupassword: pw });
 		default:
 			break;
 	}
