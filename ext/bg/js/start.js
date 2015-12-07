@@ -15,6 +15,12 @@ var livingCasterUrls = [];
 var waitActiveTabIds = [];
 var thresholdOpenUrl = 3;
 
+var starwish = {
+	openCount: 0,
+	ports: {},
+	getCmdLoopTime: 10 * 1000
+};
+
 checkFocusLoop();
 // checkCastersUrl();
 
@@ -122,13 +128,16 @@ function checkFocusLoop() {
 var xiuacc = {
 	xiuid: "",
 	xiupassword: "",
+	id: "",
 	clear: function () {
 		this.xiuid = "";
 		this.xiupassword = "";
+		this.id = "";
 	},
 	set: function (d) {
 		this.xiuid = d.Xiuacc.xiuid;
 		this.xiupassword = d.Xiuacc.xiupassword;
+		this.id = d.Xiuacc.dataid;
 	}
 };
 
@@ -364,26 +373,36 @@ function openRoomArray(arr) {
 // }
 
 
-var openCount = 0;
-chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-	var code = msg.code;
-	switch (code) {
-		case 0:
-			var url = msg.url;
-			// var tabid = msg.tabid;
-			if (openCount++ == 0) {
-				// openCount++;
-				openRoomArray([url]);
+function getCmdFromServer() {
+	$.ajax({
+		type: 'POST',
+		url: 'http://starwish.algolreality.com/xiuaccs/cmdGet',
+		dataType: 'json',
+		data: { id: xiuacc.id },
+		success: function (data, textStatus, jqXhr) {
+			console.log('get server cmd data:', data);
+			var code = data.code;
+			if (data.code == 0) {
+				var cmd = data.cmd;
+				if (cmd !== null) {
+					console.log('get cmd:', cmd);
+					sendCmdToTabs(cmd, cmd.code);
+				}
+				else {
+					console.log('no NEW cmd received.');
+				}
 			}
-			
-			console.log('cnt:', openCount);
-			break;
-		case 1:
-			var id = xiuacc.xiuid;
-			var pw = xiuacc.xiupassword;
-			console.log(id, pw);
-			sendResponse({ xiuid: id, xiupassword: pw });
-		default:
-			break;
-	}
-});
+			else {
+				console.log('get cmd incorrect, msg:', data.msg);
+			}
+		},
+		error: function (jqXhr, textStatus, errorThrown) {
+			console.log('ERROR, get cmd request:', textStatus);
+		},
+		complete: function () {
+			setTimeout(function () {
+				getCmdFromServer();
+			}, starwish.getCmdLoopTime);
+		}
+	});
+}

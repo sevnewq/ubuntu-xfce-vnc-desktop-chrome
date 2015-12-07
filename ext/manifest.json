@@ -1,5 +1,5 @@
 {
-	"version": "0.0.1",
+	"version": "0.0.4",
 	"description": "Starwish Assassin",
 	"icons": {
 		"19": "icons/19.png",
@@ -27,7 +27,9 @@
 			],
 			"js": [
 				"bg/js/lib/jquery/jquery-1.11.3.min.js",
-				"content/script.js"
+				"bg/js/msg_code.js",
+				"content/script.js",
+				"content/port.js"
 			]
 		}
 	],

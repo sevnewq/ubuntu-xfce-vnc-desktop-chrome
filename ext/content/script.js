@@ -1,4 +1,16 @@
-
+var starwish = {
+	loopTime: 4 * 60 * 1000,
+	loopTimeClearDialog: 1000,
+	loopTimeSign: 30 * 1000,
+	closeRewardBlockTime: 5 * 1000,
+	ajaxDataStarSend: null,
+	tabChange: {
+		count: 0,
+		threshold: 3
+	},
+	port: {},
+	tabid: -1
+};
 var loopTime = 4 * 60 * 1000;
 var loopTimeClearDialog = 1000;
 var loopTimeSign = 30 * 1000;
@@ -10,6 +22,16 @@ function loopAjaxStarSend() {
 	setTimeout(function () {
 		loopAjaxStarSend();
 	}, loopTime);
+}
+
+function loginCheck() {
+	var afterLogin = $('.u-center > .after-login');
+	if (afterLogin.length > 0) {
+		if (afterLogin.is(':visible')) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function ajaxStarSend() {
@@ -85,6 +107,7 @@ function getFocus() {
 						room_id: room_id
 					};
 					loopAjaxStarSend();
+					check();
 				}
 				// if (window.location.href == url) {
 				// 	console.log('url match.');
@@ -214,19 +237,20 @@ function checkOnLine() {
 }
 
 function startSignin() {
-	chrome.runtime.sendMessage({ code : 1 }, function (response) {
-		console.log(response);
-		var xiuid = response.xiuid;
-		var xiupassword = response.xiupassword;
-		console.log(xiuid, xiupassword);
-		if (xiuid.length > 0 && xiupassword.length > 0) {
-			signinAction(xiuid, xiupassword);
-		}
-		else {
-			console.log('no account received');
-		}
+	starwish.port.postMessage({ code: MSG_CODE.SIGNIN });
+	// chrome.runtime.sendMessage({ code : 1 }, function (response) {
+	// 	console.log(response);
+	// 	var xiuid = response.xiuid;
+	// 	var xiupassword = response.xiupassword;
+	// 	console.log(xiuid, xiupassword);
+	// 	if (xiuid.length > 0 && xiupassword.length > 0) {
+	// 		signinAction(xiuid, xiupassword);
+	// 	}
+	// 	else {
+	// 		console.log('no account received');
+	// 	}
 		
-	});
+	// });
 }
 
 function signinAction(id, pw) {
@@ -288,37 +312,35 @@ function signinAction(id, pw) {
 // 	}
 // }
 
-// not used in this verion 0.0.28 @ 2015/09/23
-// function check() {
-// 	if ($('.u-center > .after-login').length > 0) {
-// 		console.log('logged in @', new Date());
-// 		var time = new Date();
-// 		var hour = time.getHours();
-// 		var minute = time.getMinutes();
-// 		if (hour == 23) {
-// 			return;
-// 		}
-// 		click();
-// 		if (hour == 0 && minute <= 10) {
-// 			for (var i = 0; i < 9; i++) {
-// 				setTimeout(function () {
-// 					click();
-// 				}, 100 + (i * 10000));
-// 			}
-// 		}
-// 	}
-// }
+function check() {
+	if ($('.u-center > .after-login').length > 0) {
+		console.log('logged in @', new Date());
+		// var time = new Date();
+		// var hour = time.getHours();
+		// var minute = time.getMinutes();
+		// if (hour == 23) {
+		// 	return;
+		// }
+		click();
+		// if (hour == 0 && minute <= 10) {
+		// 	for (var i = 0; i < 9; i++) {
+		// 		setTimeout(function () {
+		// 			click();
+		// 		}, 100 + (i * 10000));
+		// 	}
+		// }
+	}
+}
 
-// not used in this verion 0.0.28 @ 2015/09/23
-// function click() {
-// 	// console.log('click star @', new Date());
-// 	document.querySelector(".gift-bar .act-bar .free-gift").click();
-// 	setTimeout(function () {
-// 		if ($('.dialog-main > .dialog-mft > .btn.btn-sye._ok').is(':visible')) {
-// 			document.querySelector('.dialog-main > .dialog-mft > .btn.btn-sye._ok').click();
-// 		}
-// 	}, 1000);
-// }
+function click() {
+	// console.log('click star @', new Date());
+	document.querySelector(".gift-bar .act-bar .free-gift").click();
+	setTimeout(function () {
+		if ($('.dialog-main > .dialog-mft > .btn.btn-sye._ok').is(':visible')) {
+			document.querySelector('.dialog-main > .dialog-mft > .btn.btn-sye._ok').click();
+		}
+	}, 1000);
+}
 
 // not used in this verion 0.0.28 @ 2015/09/23
 // function loop() {
@@ -358,7 +380,8 @@ function changeViewerTab() {
 }
 
 setTimeout(function () {
-	chrome.runtime.sendMessage({ code: 0 , url: window.location.href }, function () {
-		console.log('msg sended.');
-	});
-}, 20 * 1000);
+	starwish.port.postMessage({ code: MSG_CODE.SIGNIN });
+	// chrome.runtime.sendMessage({ code: 0 , url: window.location.href }, function () {
+	// 	console.log('msg sended.');
+	// });
+}, 25 * 1000);
