@@ -17,12 +17,13 @@ var loopTimeSign = 30 * 1000;
 var closeRewardBlockTime = 5 * 1000;
 var ajaxDataStarSend = null;
 
-function loopAjaxStarSend() {
-	ajaxStarSendCheck();
-	setTimeout(function () {
-		loopAjaxStarSend();
-	}, loopTime);
-}
+// not used in 2015/12/07
+// function loopAjaxStarSend() {
+// 	ajaxStarSendCheck();
+// 	setTimeout(function () {
+// 		loopAjaxStarSend();
+// 	}, loopTime);
+// }
 
 function loginCheck() {
 	var afterLogin = $('.u-center > .after-login');
@@ -34,48 +35,36 @@ function loginCheck() {
 	return false;
 }
 
-function ajaxStarSend() {
-	if (ajaxDataStarSend !== null) {
-		console.log('DATA, send star', ajaxDataStarSend);
-		$.ajax({
-			type: 'POST',
-			url: 'http://x.pps.tv/room/sendStar',
-			data: ajaxDataStarSend,
-			async: true,
-			dataType: 'json',
-			success: function (d, t, j) {
-				console.log('ajax send star response', d);
-			},
-			error: function (j, t, e) {
-				if (t === 'parseerror') {
-					// dataType parse error
+// not used in 2015/12/07
+// function ajaxStarSend() {
+// 	if (ajaxDataStarSend !== null) {
+// 		console.log('DATA, send star', ajaxDataStarSend);
+// 		$.ajax({
+// 			type: 'POST',
+// 			url: 'http://x.pps.tv/room/sendStar',
+// 			data: ajaxDataStarSend,
+// 			async: true,
+// 			dataType: 'json',
+// 			success: function (d, t, j) {
+// 				console.log('ajax send star response', d);
+// 			},
+// 			error: function (j, t, e) {
+// 				if (t === 'parseerror') {
+// 					// dataType parse error
+// 				}
+// 				console.log('send star, ajax error:', t);
+// 			}
+// 		});
+// 	}
+// }
 
-				}
-				console.log('send star, ajax error:', t);
-			}
-		});
-	}
-}
-
-function ajaxStarSendCheck() {
-	if ($('.u-center > .after-login').length > 0) {
-		console.log('logged in @', new Date());
-		// var time = new Date();
-		// var hour = time.getHours();
-		// var minute = time.getMinutes();
-		// if (hour == 23) {
-		// 	return;
-		// }
-		ajaxStarSend();
-		// if (hour == 0 && minute <= 10) {
-		// 	for (var i = 0; i < 9; i++) {
-		// 		setTimeout(function () {
-		// 			ajaxStarSend();
-		// 		}, 100 + (i * 10000));
-		// 	}
-		// }
-	}
-}
+// not used in 2015/12/07
+// function ajaxStarSendCheck() {
+// 	if ($('.u-center > .after-login').length > 0) {
+// 		console.log('logged in @', new Date());
+// 		ajaxStarSend();
+// 	}
+// }
 
 function getFocus() {
 	// console.log('start check focus target');
@@ -106,24 +95,10 @@ function getFocus() {
 						to_uid: to_uid,
 						room_id: room_id
 					};
-					loopAjaxStarSend();
+					// loopAjaxStarSend();
 					check();
 				}
-				// if (window.location.href == url) {
-				// 	console.log('url match.');
-				// 	setTimeout(function () {
-				// 		check();
-				// 		setTimeout(function () {
-				// 			loop();
-				// 		}, loopTime);
-				// 	}, 5000);
-				// }
-				// else {
-				// 	// console.log('room url:', url);
-				// 	// console.log('location:', window.location.href);
-
-				// 	// $('.dialog-main > .dialog-mft > .btn.btn-sye._ok').is(':visible');
-				// }
+				
 			}
 			else {
 				console.log('focus check failed. casters count:', d.length);
@@ -135,9 +110,9 @@ function getFocus() {
 	});	
 }
 
-function checkSign() {
+function checkSign(forceOpen) {
 	if ($('.u-center > .after-login').length > 0) {
-		clickSign2();
+		clickSign2(forceOpen);
 	}
 }
 
@@ -148,7 +123,7 @@ function loopSign() {
 	}, loopTimeSign);
 }
 
-function clickSign2() {
+function clickSign2(forceOpen) {
 	// console.log('click @', new Date());
 
 	// get reward
@@ -156,6 +131,12 @@ function clickSign2() {
 	if ($('.mission-tip._headerItem.tip-panel > ._rewardCenterMain', rewardCenter).length == 0) {
 		console.log('click reward center');
 		rewardCenter.children('a.reward')[0].click();
+	}
+	if (forceOpen) {	// force open
+		rewardCenter.children('a.reward')[0].click();
+		setTimeout(function () {
+			clickSign2();
+		}, 500);
 	}
 	var btns = $('._rewardCenterMain table.mission-table td.col4 > .btn._obtainPrize:not(.btn-syb-ro):not(.btn-syb-off)', rewardCenter);
 	if (btns.length > 0) {
@@ -167,6 +148,9 @@ function clickSign2() {
 				btn.click();
 			}, 100 + (i * 20));
 		}
+	}
+	else {
+		console.info('reward NOT found');
 	}
 
 	// sign
@@ -192,6 +176,11 @@ function clickSign2() {
 			sign[0].click();
 		}
 	}, closeRewardBlockTime);
+	if (forceOpen) {	// force open
+		setTimeout(function () {
+			clickSign2();
+		}, 500);
+	}
 }
 
 function loopClearDialog() {
@@ -238,19 +227,7 @@ function checkOnLine() {
 
 function startSignin() {
 	starwish.port.postMessage({ code: MSG_CODE.SIGNIN });
-	// chrome.runtime.sendMessage({ code : 1 }, function (response) {
-	// 	console.log(response);
-	// 	var xiuid = response.xiuid;
-	// 	var xiupassword = response.xiupassword;
-	// 	console.log(xiuid, xiupassword);
-	// 	if (xiuid.length > 0 && xiupassword.length > 0) {
-	// 		signinAction(xiuid, xiupassword);
-	// 	}
-	// 	else {
-	// 		console.log('no account received');
-	// 	}
-		
-	// });
+
 }
 
 function signinAction(id, pw) {
@@ -270,7 +247,28 @@ function signinAction(id, pw) {
 		$('input[name="account"]', form).val(id);
 		$('input[name="passwd"]', form).val(pw);
 
-		$('.act > .btn.btn-sye', form)[0].click();
+		setTimeout(function () {
+			$('.act > .btn.btn-sye', form)[0].click();
+			console.info('click login');
+			// check login status
+			setTimeout(function () {
+				console.info('check login status after login click');
+				if (!loginCheck()) {
+					var errmsg = $('.login-form._login > ._loginBd > .t-warning > ._errorMsg');
+					console.info('login fail, msg:', errmsg.html());
+					if (errmsg.length > 0 && errmsg.is(':visible')) {
+						if (errmsg.html().length > 0) {
+							console.info('_errorMsg', errmsg.html());
+							starwish.port.postMessage({
+								code: MSG_CODE.SENDSTATUS,
+								status: 'guest.error' + errmsg.html()
+							});
+						}
+						
+					}
+				}
+			}, 60 * 1000);
+		}, 5 * 1000);
 	}
 }
 
@@ -315,20 +313,7 @@ function signinAction(id, pw) {
 function check() {
 	if ($('.u-center > .after-login').length > 0) {
 		console.log('logged in @', new Date());
-		// var time = new Date();
-		// var hour = time.getHours();
-		// var minute = time.getMinutes();
-		// if (hour == 23) {
-		// 	return;
-		// }
 		click();
-		// if (hour == 0 && minute <= 10) {
-		// 	for (var i = 0; i < 9; i++) {
-		// 		setTimeout(function () {
-		// 			click();
-		// 		}, 100 + (i * 10000));
-		// 	}
-		// }
 	}
 }
 
@@ -342,13 +327,12 @@ function click() {
 	}, 1000);
 }
 
-// not used in this verion 0.0.28 @ 2015/09/23
-// function loop() {
-// 	check();
-// 	setTimeout(function () {
-// 		loop();
-// 	}, loopTime);
-// }
+function loop() {
+	check();
+	setTimeout(function () {
+		loop();
+	}, loopTime);
+}
 
 var tabChange = {
 	count: 0,
@@ -379,9 +363,6 @@ function changeViewerTab() {
 
 }
 
-setTimeout(function () {
-	starwish.port.postMessage({ code: MSG_CODE.SIGNIN });
-	// chrome.runtime.sendMessage({ code: 0 , url: window.location.href }, function () {
-	// 	console.log('msg sended.');
-	// });
-}, 25 * 1000);
+// setTimeout(function () {
+// 	starwish.port.postMessage({ code: MSG_CODE.SIGNIN });
+// }, 25 * 1000);

@@ -1,36 +1,11 @@
-var openCount = 0;			// count current tab open times
-// chrome.runtime.onMessage.addListener(msgListener);
+
+chrome.runtime.onConnect.addListener(connectListener);
 
 function sendCmdToTabs(cmd, code) {
 	$.each(starwish.ports, function (i, v) {
 		v.postMessage({ code: code, cmd: cmd });
 	});
 }
-
-// function msgListener(msg, sender, sendResponse) {
-// 	var code = msg.code;
-// 	switch (code) {
-// 		case 0: 			// open url
-// 			var url = msg.url;
-// 			// var tabid = msg.tabid;
-// 			if (openCount++ == 0) {
-// 				// openCount++;
-// 				openRoomArray([url]);
-// 			}
-			
-// 			console.log('cnt:', openCount);
-// 			break;
-// 		case 1: 			// signin
-// 			var id = xiuacc.xiuid;
-// 			var pw = xiuacc.xiupassword;
-// 			console.log(id, pw);
-// 			sendResponse({ xiuid: id, xiupassword: pw });
-// 		default:
-// 			break;
-// 	}
-// }
-
-chrome.runtime.onConnect.addListener(connectListener);
 
 function deletePortByTabId(tabid) {
 	try { delete starwish.ports['t' + tabid]; } catch (ex) { }
@@ -48,7 +23,7 @@ function connectListener(port) {
 
 // receive port message from tabs
 function portMsgListener(msg, port) {
-	console.log('msg port', msg, port);
+	console.log('msg port', msg, port, new Date());
 	var code = msg.code;
 	var tabid = port.sender.tab.id;
 	switch (code) {
@@ -56,26 +31,24 @@ function portMsgListener(msg, port) {
 			var url = msg.url;
 			// var tabid = msg.tabid;
 			if (starwish.openCount++ == 0) {
-				// starwish.openCount++;
 				openRoomArray([url]);
 			}
-			
 			console.log('cnt:', starwish.openCount);
 			break;
 		case MSG_CODE.SIGNIN: 			// signin
 			var id = xiuacc.xiuid;
 			var pw = xiuacc.xiupassword;
-			console.log(id, pw);
-			// sendResponse({ xiuid: id, xiupassword: pw });
-			// starwish.ports['t' + tabid].postMessage({ code: MSG_CODE.SIGNIN });
+			console.info(id, pw);
 			sendCmdToTabs({ xiuid: id, xiupassword: pw }, code);
-			// start getting cmd from server
-			getCmdFromServer();
 			break;
 		case MSG_CODE.SENDSTATUS:
 			var status = msg.status;
 			console.log('update status to server.', status);
-			sendStatusToServer(status, tabid);
+			starwish.status = status;
+			var lastname = msg.lastname;
+			if (lastname.length > 0) {
+				starwish.lastname = lastname;
+			}
 			break;
 		default:
 			break;
@@ -92,8 +65,3 @@ function portDisconnectListener(port) {
 	var windowid = tab.windowId;
 	deletePortByTabId(tabid);
 }
-
-function sendStatusToServer(status, tabid) {
-
-}
-
