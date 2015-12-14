@@ -123,6 +123,27 @@ function loopSign() {
 	}, loopTimeSign);
 }
 
+function clickLogout(restart) {
+	if (loginCheck()) {
+		var logoutBtn = $('.after-login .login-drop > .login-out > a[click-type="logout"]');
+		if (logoutBtn.length > 0) {
+			logoutBtn[0].click();
+			if (restart) {
+				setTimeout(function () {
+					document.cookie = '';
+					starwish.port.postMessage({ code: MSG_CODE.RESTART });
+				}, 1000);
+			}
+		}
+	}
+	else {
+		if (restart) {
+			document.cookie = '';
+			starwish.port.postMessage({ code: MSG_CODE.RESTART });	
+		}
+	}
+}
+
 function clickSign2(forceOpen) {
 	// console.log('click @', new Date());
 
@@ -261,7 +282,8 @@ function signinAction(id, pw) {
 							console.info('_errorMsg', errmsg.html());
 							starwish.port.postMessage({
 								code: MSG_CODE.SENDSTATUS,
-								status: 'guest.error' + errmsg.html()
+								status: 'guest.error' + errmsg.html(),
+								lastname: findLastName()
 							});
 						}
 						

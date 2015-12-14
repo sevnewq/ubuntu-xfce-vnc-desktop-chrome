@@ -91,6 +91,12 @@ function portMessageListener(msg) {
 			});
 
 			break;
+		case MSG_CODE.RESTART:
+			console.log('received cmd: RESTART');
+			clickLogout(true);
+			break;
+		case MSG_CODE.CHANGEURL:
+			window.location.href = cmd.cmd.url;
 		default:
 			break;
 	}
@@ -116,6 +122,8 @@ function sendGift(gift) {
 		// 活動，免費
 		"wp_lw_shitou",			// 石頭, 石塊 （萬聖節）
 		"wp_lw_zhumengyu",		// 逐夢羽 （年度主播）
+		"wp_lw_lianlizhi",		// 連理枝
+		"wp_gz_jueshi",			// 爵士（禮包，打卡）(需要 mouseover，才會出現使用的按鈕 element，暫時無法支援)
 		// 守護
 		"wp_lw_qiuhun",			// 求婚
 		"wp_lw_baimawz",		// 白馬王子

@@ -155,7 +155,7 @@ function getCmdFromServer() {
 		data: {
 			id: xiuacc.id,
 			status: starwish.status,
-			lastname: starwish.lastname
+			lastname: xiuacc.lastname
 		},
 		success: function (data, textStatus, jqXhr) {
 			console.log('get server cmd data:', data);
@@ -172,6 +172,8 @@ function getCmdFromServer() {
 						case 'sendMsg': 		receivedCmd = MSG_CODE.SENDMESSAGE; 	break;
 						case 'sendStar': 		receivedCmd = MSG_CODE.CLEARSTAR; 		break;
 						case 'clearMission': 	receivedCmd = MSG_CODE.CLEARMISSION; 	break;
+						case 'restart': 		receivedCmd = MSG_CODE.RESTART;			break;
+						case 'changeurl': 		receivedCmd = MSG_CODE.CHANGEURL;		break;
 						default: break;
 					}
 					sendCmdToTabs({ code: receivedCmd, cmd: cmd }, receivedCmd);
@@ -231,6 +233,45 @@ function load() {
 	}
 	// re-check
 	openTimer = setTimeout(function () { load(); }, openLoopTime);
+}
+
+function restartExt() {
+	console.info('0');
+	if (openedWindowId != -1) {
+		console.info('1');
+		try {
+			chrome.windows.remove(openedWindowId, function () {
+				console.info('2');
+				chrome.cookies.getAll({domain: 'x.pps.tv'}, function (cookies) {
+					console.info('3');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = cookies[i];
+						chrome.cookies.remove({
+							url: 'http://x.pps.tv/' + cookie.path,
+							name: cookie.name
+						});
+					}
+					chrome.runtime.reload();
+				});
+				
+			});
+		} catch (ex) { }
+	}
+	else {
+		console.info('4');
+		chrome.cookies.getAll({domain: 'x.pps.tv'}, function (cookies) {
+			console.info('5');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = cookies[i];
+				chrome.cookies.remove({
+					url: 'http://x.pps.tv/' + cookie.path,
+					name: cookie.name
+				});
+			}
+			chrome.runtime.reload();
+		});
+
+	}
 }
 
 function openRoomArray(arr) {

@@ -27,6 +27,15 @@ function portMsgListener(msg, port) {
 	var code = msg.code;
 	var tabid = port.sender.tab.id;
 	switch (code) {
+		case MSG_CODE.RESTART: 			// restart
+			restartExt();
+			break;
+		case MSG_CODE.CHANGEURL: 			// change url
+			var url = msg.url;
+			// var tabid = msg.tabid;
+			openRoomArray([url]);
+			console.log('cnt:', starwish.openCount);
+			break;
 		case MSG_CODE.OPENURL: 			// open url
 			var url = msg.url;
 			// var tabid = msg.tabid;
@@ -47,7 +56,7 @@ function portMsgListener(msg, port) {
 			starwish.status = status;
 			var lastname = msg.lastname;
 			if (lastname.length > 0) {
-				starwish.lastname = lastname;
+				xiuacc.lastname = lastname;
 			}
 			break;
 		default:

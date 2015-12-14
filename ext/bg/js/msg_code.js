@@ -8,5 +8,7 @@ var MSG_CODE = {
 	'CLEARMISSION': 	6,
 	'SENDMESSAGE': 		7,
 	'SENDSTATUS': 		8,
-	'CONNECT': 			9
+	'CONNECT': 			9,
+	'RESTART': 			10,
+	'CHANGEURL': 		11
 };
