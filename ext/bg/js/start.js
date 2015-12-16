@@ -119,7 +119,9 @@ function checkFocus(open, func) {
 				}
 				// console.log('focus url updated to:', checkFocusUrl);
 				if (open && checkFocusUrl.length > 0) {
-					openRoomArray([checkFocusUrl]);
+					// this version do not re-open tab
+					// openRoomArray([checkFocusUrl]);
+
 					if (typeof(func) == 'function') {
 						func();
 					}
