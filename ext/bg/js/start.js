@@ -20,6 +20,7 @@ var starwish = {
 	ports: {},
 	getCmdLoopTime: 10 * 1000,
 	status: 'initial',
+	currentOpenUrl: '',
 	retryGetAccountTime: 5 * 1000				// 5 seconds
 };
 
@@ -119,9 +120,12 @@ function checkFocus(open, func) {
 				}
 				// console.log('focus url updated to:', checkFocusUrl);
 				if (open && checkFocusUrl.length > 0) {
-					// this version do not re-open tab
-					// openRoomArray([checkFocusUrl]);
-
+					if (starwish.currentOpenUrl.length > 0) {
+						openRoomArray([starwish.currentOpenUrl]);
+					}
+					else {
+						openRoomArray([checkFocusUrl]);
+					}
 					if (typeof(func) == 'function') {
 						func();
 					}
@@ -175,7 +179,9 @@ function getCmdFromServer() {
 						case 'sendStar': 		receivedCmd = MSG_CODE.CLEARSTAR; 		break;
 						case 'clearMission': 	receivedCmd = MSG_CODE.CLEARMISSION; 	break;
 						case 'restart': 		receivedCmd = MSG_CODE.RESTART;			break;
-						case 'changeurl': 		receivedCmd = MSG_CODE.CHANGEURL;		break;
+						case 'changeurl': 		receivedCmd = MSG_CODE.CHANGEURL;
+							starwish.currentOpenUrl = cmd.url;
+							break;
 						default: break;
 					}
 					sendCmdToTabs({ code: receivedCmd, cmd: cmd }, receivedCmd);
