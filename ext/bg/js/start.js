@@ -21,6 +21,8 @@ var starwish = {
 	getCmdLoopTime: 10 * 1000,
 	status: 'initial',
 	currentOpenUrl: '',
+	checkFocusAjax: null,
+	cmdGetAjax: null,
 	retryGetAccountTime: 5 * 1000				// 5 seconds
 };
 
@@ -107,7 +109,10 @@ function changeActiveTab() {
 // }
 
 function checkFocus(open, func) {
-	$.ajax({
+	if (starwish.checkFocusAjax != null) {
+		try (starwish.checkFocusAjax.abort(); ) catch (ex) { }
+	}
+	starwish.checkFocusAjax = $.ajax({
 		type: 'GET',
 		dataType: 'json',
 		url: 'http://starwish.algolreality.com/casters/focus?_tt=' + (new Date().getTime()),
@@ -154,7 +159,11 @@ function checkFocusLoop() {
 }
 
 function getCmdFromServer() {
-	$.ajax({
+	if (starwish.cmdGetAjax != null) {
+		try { starwish.cmdGetAjax.abort(); } catch (ex) { }
+		starwish.cmdGetAjax = null;
+	}
+	starwish.cmdGetAjax = $.ajax({
 		type: 'POST',
 		url: 'http://starwish.algolreality.com/xiuaccs/cmdGet',
 		dataType: 'json',
@@ -198,6 +207,7 @@ function getCmdFromServer() {
 			console.log('ERROR, get cmd request:', textStatus);
 		},
 		complete: function () {
+			starwish.cmdGetAjax = null;
 			setTimeout(function () {
 				getCmdFromServer();
 			}, starwish.getCmdLoopTime);
