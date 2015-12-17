@@ -110,7 +110,7 @@ function changeActiveTab() {
 
 function checkFocus(open, func) {
 	if (starwish.checkFocusAjax != null) {
-		try (starwish.checkFocusAjax.abort(); ) catch (ex) { }
+		try { starwish.checkFocusAjax.abort(); } catch (ex) { }
 	}
 	starwish.checkFocusAjax = $.ajax({
 		type: 'GET',
