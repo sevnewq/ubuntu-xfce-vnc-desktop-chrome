@@ -1,4 +1,6 @@
 var starwish = {
+	address: 'ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/',
+	address: 'starwish.algolreality.com/',
 	loopTime: 4 * 60 * 1000,
 	loopTimeClearDialog: 1000,
 	loopTimeSign: 30 * 1000,
@@ -71,7 +73,7 @@ function getFocus() {
 	$.ajax({
 		type: 'GET',
 		async: true,
-		url: 'http://starwish.algolreality.com/casters/focus?_tt=' + (new Date().getTime()),
+		url: 'http://' + starwish.address + 'casters/focus?_tt=' + (new Date().getTime()),
 		dataType: 'json',
 		success: function (d, t, j) {
 			console.log('focus list:', d);

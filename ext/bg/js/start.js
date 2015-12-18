@@ -16,6 +16,8 @@ var waitActiveTabIds = [];
 var thresholdOpenUrl = 3;
 
 var starwish = {
+	address: 'ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/',
+	// address: 'starwish.algolreality.com/',
 	openCount: 0,								// count current tab open times
 	ports: {},
 	getCmdLoopTime: 10 * 1000,
@@ -88,7 +90,7 @@ function changeActiveTab() {
 // 	$.ajax({
 // 		type: 'GET',
 // 		dataType: 'json',
-// 		url: 'http://starwish.algolreality.com/casters/json?_tt=' + (new Date().getTime()),
+// 		url: 'http://' + starwish.address + 'casters/json?_tt=' + (new Date().getTime()),
 // 		success: function (d, t, j) {
 // 			casterUrls = [];
 // 			if ($.isArray(d)) {
@@ -115,7 +117,7 @@ function checkFocus(open, func) {
 	starwish.checkFocusAjax = $.ajax({
 		type: 'GET',
 		dataType: 'json',
-		url: 'http://starwish.algolreality.com/casters/focus?_tt=' + (new Date().getTime()),
+		url: 'http://' + starwish.address + 'casters/focus?_tt=' + (new Date().getTime()),
 		success: function (d, t, j) {
 			if (d.length == 1) {
 				checkFocusUrl = d[0].Caster.room;
@@ -165,7 +167,7 @@ function getCmdFromServer() {
 	}
 	starwish.cmdGetAjax = $.ajax({
 		type: 'POST',
-		url: 'http://starwish.algolreality.com/xiuaccs/cmdGet',
+		url: 'http://' + starwish.address + 'xiuaccs/cmdGet',
 		dataType: 'json',
 		data: {
 			id: xiuacc.id,
@@ -220,7 +222,7 @@ function getCmdFromServer() {
 function getAccountFromServer() {
 	$.ajax({
 		type: 'GET',
-		url: 'http://starwish.algolreality.com/xiuaccs/json?' + (new Date().getTime()),
+		url: 'http://' + starwish.address + 'xiuaccs/json?' + (new Date().getTime()),
 		dataType: 'json',
 		success: function (d, t, j) {
 			console.log(t);
