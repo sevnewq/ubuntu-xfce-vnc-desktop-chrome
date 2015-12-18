@@ -16,8 +16,8 @@ var waitActiveTabIds = [];
 var thresholdOpenUrl = 3;
 
 var starwish = {
-	address: 'ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/',
-	// address: 'starwish.algolreality.com/',
+	// address: 'ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/',
+	address: 'starwish.algolreality.com/',
 	openCount: 0,								// count current tab open times
 	ports: {},
 	getCmdLoopTime: 10 * 1000,

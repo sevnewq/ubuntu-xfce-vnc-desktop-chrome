@@ -1,5 +1,5 @@
 var starwish = {
-	address: 'ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/',
+	// address: 'ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/',
 	address: 'starwish.algolreality.com/',
 	loopTime: 4 * 60 * 1000,
 	loopTimeClearDialog: 1000,
