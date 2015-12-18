@@ -25,6 +25,7 @@ var starwish = {
 	currentOpenUrl: '',
 	checkFocusAjax: null,
 	cmdGetAjax: null,
+	cmdGetTimer: null,
 	retryGetAccountTime: 5 * 1000				// 5 seconds
 };
 
@@ -210,7 +211,11 @@ function getCmdFromServer() {
 		},
 		complete: function () {
 			starwish.cmdGetAjax = null;
-			setTimeout(function () {
+			if (starwish.cmdGetTimer != null) {
+				try { clearTimeout(starwish.cmdGetTimer); } catch (ex) { }
+				starwish.cmdGetTimer = null;
+			}
+			starwish.cmdGetTimer = setTimeout(function () {
 				getCmdFromServer();
 			}, starwish.getCmdLoopTime);
 			// update status from tab
@@ -252,7 +257,7 @@ function load() {
 		openTimer = null;
 	}
 	// re-check
-	openTimer = setTimeout(function () { load(); }, openLoopTime);
+	// openTimer = setTimeout(function () { load(); }, openLoopTime);
 }
 
 function restartExt() {
