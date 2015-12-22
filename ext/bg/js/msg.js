@@ -58,6 +58,7 @@ function portMsgListener(msg, port) {
 			if (lastname.length > 0) {
 				xiuacc.lastname = lastname;
 			}
+			updateTabStatusRecord(tabid, msg, port.sender.tab.windowId);
 			break;
 		default:
 			break;
@@ -73,4 +74,44 @@ function portDisconnectListener(port) {
 	var tabid = tab.id;
 	var windowid = tab.windowId;
 	deletePortByTabId(tabid);
+	
+	// chrome.tabs.query({
+	// 	windowId: windowid,
+	// 	url: url
+	// }, function (tabs) {
+	// 	if (tabs.length > 0) {
+	// 		var ids = [];
+	// 		var urls = [];
+	// 		for (var i = 0; i < tabs.length; i++) {
+	// 			ids.push(tabs[i].id);
+	// 			urls.push(tabs[i].url);
+	// 		}
+	// 		chrome.tabs.remove(ids);
+	// 		openedWindowId = -1;
+	// 		openRoomArray(urls);
+	// 	}
+	// });
+	
+
+	
+}
+
+function updateTabStatusRecord(tabid, msg, windowid) {
+	var time = msg.lastTabStatusTime;
+	var url = msg.url;
+	var tab = starwish.tabOpenMonitor.tabs['tab_' + tabid];
+	starwish.tabOpenMonitor.tabs['tab_' + tabid];
+	if (tab == undefined) {
+		starwish.tabOpenMonitor.tabs['tab_' + tabid] = {
+			url: url,
+			id: tabid,
+			time: time,
+			wid: windowid
+		};
+	}
+	else {
+		starwish.tabOpenMonitor.tabs['tab_' + tabid].time = time;
+		starwish.tabOpenMonitor.tabs['tab_' + tabid].url = url;
+		starwish.tabOpenMonitor.tabs['tab_' + tabid].wid = windowid;
+	}
 }

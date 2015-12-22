@@ -16,7 +16,6 @@ var waitActiveTabIds = [];
 var thresholdOpenUrl = 3;
 
 var starwish = {
-	// address: 'ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/',
 	address: 'starwish.algolreality.com/',
 	openCount: 0,								// count current tab open times
 	ports: {},
@@ -26,8 +25,78 @@ var starwish = {
 	checkFocusAjax: null,
 	cmdGetAjax: null,
 	cmdGetTimer: null,
+	tabOpenMonitor: {
+		tabs: {},
+		timer: null,
+		time: 30 * 1000,						// 30 seconds
+		check: function () {
+			$.each(this.tabs, function (i, t) {
+				var currentTime = new Date().getTime();
+				var tabTime = t.time;
+				if (currentTime - tabTime > 60000) {	// 1 minute
+					console.info('1 minute');
+					var url = t.url;
+					var wid = t.wid;
+					var tid = t.id;
+					
+					try { delete starwish.tabOpenMonitor.tabs[i]; } catch (ex) { }
+					try {
+						chrome.windows.get(wid, function (w) {
+							try {
+								chrome.tabs.create({ url: url, windowId: wid });
+							} catch (ex) {
+								openedWindowId = -1;
+								openRoomArray([url]);
+							}
+							
+						});
+						chrome.tabs.remove(tid, function () { });
+					}
+					catch (ex) {
+						chrome.tabs.remove(tid, function () { });
+						openedWindowId = -1;
+						openRoomArray([url]);
+					}
+				}
+			});
+
+			if (this.timer != null) {
+				try { clearTimeout(this.timer); } catch (ex) { }
+				this.timer = null;
+			}
+			if (openedWindowId != -1) {
+				chrome.tabs.query({ windowId: openedWindowId }, function (tabs) {
+					for (var i = 0; i < tabs.length; i++) {
+						var tab = tabs[i];
+						var id = tab.id;
+						var status = tab.status;
+						console.info('tab status, id', status, id);
+						if (status == 'loading') {
+							var url = tab.url;
+							if (openedWindowId == -1) {
+								openRoomArray([url]);
+							}
+							else {
+								var wid = tab.windowId;
+								chrome.tabs.remove(id, function () { });
+								chrome.tabs.create({ windowId: wid, url: url }, function (t) { });
+							}
+							// chrome.tabs.remove({ id: id }, function () { });
+						}
+					}
+				});
+			}
+
+			this.timer = setTimeout(function () {
+				starwish.tabOpenMonitor.check();
+			}, this.time);
+		}
+	},
 	retryGetAccountTime: 5 * 1000				// 5 seconds
 };
+
+starwish.tabOpenMonitor.check();
+
 
 var xiuacc = {
 	xiuid: "",
@@ -345,6 +414,7 @@ function openRoomArray(arr) {
 		});
 	}
 	else {
+		console.info('arr', arr);
 		chrome.windows.create({ url: arr, width: 400, height: 250, top: 30, left: 30, focused: true }, function (w) {
 			openedWindowId = w.id;
 			setTimeout(function () { activeTabs(); }, changeActiveTabTime);

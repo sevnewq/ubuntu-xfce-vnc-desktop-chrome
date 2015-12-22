@@ -87,7 +87,9 @@ function portMessageListener(msg) {
 			starwish.port.postMessage({
 				code: MSG_CODE.SENDSTATUS,
 				status: status,
-				lastname: findLastName()
+				lastname: findLastName(),
+				lastTabStatusTime: (new Date().getTime()),
+				url: window.location.href
 			});
 
 			break;
