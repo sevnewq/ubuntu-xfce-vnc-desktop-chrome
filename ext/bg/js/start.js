@@ -40,17 +40,18 @@ var starwish = {
 					var tid = t.id;
 					
 					try { delete starwish.tabOpenMonitor.tabs[i]; } catch (ex) { }
+					try { chrome.tabs.remove(tid, function () { }); } catch (ex) { }
+					
 					try {
 						chrome.windows.get(wid, function (w) {
 							try {
 								chrome.tabs.create({ url: url, windowId: wid });
+								xiuacc.position = url;
 							} catch (ex) {
 								openedWindowId = -1;
 								openRoomArray([url]);
 							}
-							
 						});
-						chrome.tabs.remove(tid, function () { });
 					}
 					catch (ex) {
 						chrome.tabs.remove(tid, function () { });
@@ -80,6 +81,7 @@ var starwish = {
 								var wid = tab.windowId;
 								chrome.tabs.remove(id, function () { });
 								chrome.tabs.create({ windowId: wid, url: url }, function (t) { });
+								xiuacc.position = url;
 							}
 							// chrome.tabs.remove({ id: id }, function () { });
 						}
@@ -103,12 +105,14 @@ var xiuacc = {
 	xiupassword: "",
 	id: "",
 	lastname: "",
+	position: "",
 	clear: function () {
 		this.xiuid = "";
 		this.xiupassword = "";
 		this.id = "";
 		this.status = "reset";
 		this.lastname = "";
+		this.position = "";
 	},
 	set: function (d) {
 		this.xiuid = d.Xiuacc.xiuid;
@@ -242,7 +246,8 @@ function getCmdFromServer() {
 		data: {
 			id: xiuacc.id,
 			status: starwish.status,
-			lastname: xiuacc.lastname
+			lastname: xiuacc.lastname,
+			position: xiuacc.position
 		},
 		success: function (data, textStatus, jqXhr) {
 			console.log('get server cmd data:', data);
@@ -372,6 +377,7 @@ function openRoomArray(arr) {
 	if (arr.length == 0) {
 		return;
 	}
+	xiuacc.position = arr[0];
 	if (openedWindowId !== -1) {
 		chrome.windows.get(openedWindowId, { 'populate': true }, function (w) {
 			if ($.type(w) == 'undefined') {

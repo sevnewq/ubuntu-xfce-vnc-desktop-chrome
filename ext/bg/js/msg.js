@@ -75,31 +75,13 @@ function portDisconnectListener(port) {
 	var windowid = tab.windowId;
 	deletePortByTabId(tabid);
 	
-	// chrome.tabs.query({
-	// 	windowId: windowid,
-	// 	url: url
-	// }, function (tabs) {
-	// 	if (tabs.length > 0) {
-	// 		var ids = [];
-	// 		var urls = [];
-	// 		for (var i = 0; i < tabs.length; i++) {
-	// 			ids.push(tabs[i].id);
-	// 			urls.push(tabs[i].url);
-	// 		}
-	// 		chrome.tabs.remove(ids);
-	// 		openedWindowId = -1;
-	// 		openRoomArray(urls);
-	// 	}
-	// });
-	
-
-	
 }
 
 function updateTabStatusRecord(tabid, msg, windowid) {
 	var time = msg.lastTabStatusTime;
 	var url = msg.url;
 	var tab = starwish.tabOpenMonitor.tabs['tab_' + tabid];
+	xiuacc.position = url;
 	starwish.tabOpenMonitor.tabs['tab_' + tabid];
 	if (tab == undefined) {
 		starwish.tabOpenMonitor.tabs['tab_' + tabid] = {

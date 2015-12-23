@@ -96,8 +96,8 @@ function getFocus() {
 						to_uid: to_uid,
 						room_id: room_id
 					};
-					// loopAjaxStarSend();
-					check();
+
+					// check();
 				}
 				
 			}
@@ -186,6 +186,13 @@ function clickSign2(forceOpen) {
 		console.log('sign block click', block);
 		block[0].click();
 	}
+
+	// follow
+	var follow = $('#_follow');
+	if (follow.children('.ico.ico-plus').is(':visible')) {
+		follow[0].click();
+	}
+
 	// close sign and reward panel
 	setTimeout(function () {
 		if ($('#_rewardCenter > .mission-tip._headerItem.tip-panel').is(':visible')) {
