@@ -267,10 +267,25 @@ function getCmdFromServer() {
 						case 'restart': 		receivedCmd = MSG_CODE.RESTART;			break;
 						case 'changeurl': 		receivedCmd = MSG_CODE.CHANGEURL;
 							starwish.currentOpenUrl = cmd.url;
+							chrome.windows.get(openedWindowId, { 'populate': true }, function (w) {
+								if (w == undefined) {
+									openedWindowId = -1;
+									openRoomArray([cmd.url]);
+								}
+								else {
+									if (w.tabs.length >= 1) {
+										chrome.windows.remove(w.id, function () {
+											openedWindowId = -1;
+											openRoomArray([cmd.url]);
+										})
+									}
+								}
+							});
 							break;
 						default: break;
 					}
 					sendCmdToTabs({ code: receivedCmd, cmd: cmd }, receivedCmd);
+					
 				}
 				else {
 					console.log('no cmd received.');
