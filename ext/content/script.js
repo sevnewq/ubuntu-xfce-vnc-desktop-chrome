@@ -67,49 +67,49 @@ function loginCheck() {
 // 	}
 // }
 
-function getFocus() {
-	// console.log('start check focus target');
-	$.ajax({
-		type: 'GET',
-		async: true,
-		url: 'http://' + starwish.address + 'casters/focus?_tt=' + (new Date().getTime()),
-		dataType: 'json',
-		success: function (d, t, j) {
-			console.log('focus list:', d);
-			delete ajaxDataStarSend;
-			ajaxDataStarSend = null;
-			if (d.length == 1) {
-				var caster = d[0].Caster;
-				var url = caster.room;
-				var to_uid = caster.xiuid;
-				var room_id = url;
-				room_id = room_id.substring(room_id.lastIndexOf('/') + 1, room_id	.length);
+// function getFocus() {
+// 	// console.log('start check focus target');
+// 	$.ajax({
+// 		type: 'GET',
+// 		async: true,
+// 		url: 'http://' + starwish.address + 'casters/focus?_tt=' + (new Date().getTime()),
+// 		dataType: 'json',
+// 		success: function (d, t, j) {
+// 			console.log('focus list:', d);
+// 			delete ajaxDataStarSend;
+// 			ajaxDataStarSend = null;
+// 			if (d.length == 1) {
+// 				var caster = d[0].Caster;
+// 				var url = caster.room;
+// 				var to_uid = caster.xiuid;
+// 				var room_id = url;
+// 				room_id = room_id.substring(room_id.lastIndexOf('/') + 1, room_id	.length);
 
-				if (room_id.length !== 6) {
-					room_id = '';
-				}
-				if (!isNaN(parseInt(to_uid)) && !isNaN(parseInt(room_id))) {
-					console.log('room_id', room_id);
-					console.log('to_uid', to_uid);
-					console.log('found room_id and to_uid');
-					ajaxDataStarSend = {
-						to_uid: to_uid,
-						room_id: room_id
-					};
+// 				if (room_id.length !== 6) {
+// 					room_id = '';
+// 				}
+// 				if (!isNaN(parseInt(to_uid)) && !isNaN(parseInt(room_id))) {
+// 					console.log('room_id', room_id);
+// 					console.log('to_uid', to_uid);
+// 					console.log('found room_id and to_uid');
+// 					ajaxDataStarSend = {
+// 						to_uid: to_uid,
+// 						room_id: room_id
+// 					};
 
-					// check();
-				}
+// 					// check();
+// 				}
 				
-			}
-			else {
-				console.log('focus check failed. casters count:', d.length);
-			}
-		},
-		error: function (j, t, e) {
-			console.log('get focus failed.');
-		}
-	});	
-}
+// 			}
+// 			else {
+// 				console.log('focus check failed. casters count:', d.length);
+// 			}
+// 		},
+// 		error: function (j, t, e) {
+// 			console.log('get focus failed.');
+// 		}
+// 	});	
+// }
 
 function checkSign(forceOpen) {
 	if ($('.u-center > .after-login').length > 0) {
@@ -225,7 +225,7 @@ function loopClearDialog() {
 }
 
 $(document).ready(function () {
-	getFocus();
+	// getFocus();
 	loopSign();
 	loopClearDialog();
 

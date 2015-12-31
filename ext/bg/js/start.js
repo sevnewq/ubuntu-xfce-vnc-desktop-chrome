@@ -191,29 +191,24 @@ function checkFocus(open, func) {
 	starwish.checkFocusAjax = $.ajax({
 		type: 'GET',
 		dataType: 'json',
-		url: 'http://' + starwish.address + 'casters/focus?_tt=' + (new Date().getTime()),
+		url: 'http://' + starwish.address + 'xiuaccs/getCurrent?_tt=' + (new Date().getTime()),
 		success: function (d, t, j) {
-			if (d.length == 1) {
-				checkFocusUrl = d[0].Caster.room;
-				if (jQuery.type(checkFocusUrl) !== 'string') {
-					checkFocusUrl = '';
-					// console.log('focus url update failed, type incorrect.');
-				}
-				// console.log('focus url updated to:', checkFocusUrl);
-				if (open && checkFocusUrl.length > 0) {
-					if (starwish.currentOpenUrl.length > 0) {
-						openRoomArray([starwish.currentOpenUrl]);
-					}
-					else {
-						openRoomArray([checkFocusUrl]);
-					}
-					if (typeof(func) == 'function') {
-						func();
-					}
-				}
+			var checkFocusUrl = d.url;
+			if (jQuery.type(checkFocusUrl) !== 'string') {
+				checkFocusUrl = '';
+				// console.log('focus url update failed, type incorrect.');
 			}
-			else {
-				// console.log('focus caster check failed. count:', d.length);
+			// console.log('focus url updated to:', checkFocusUrl);
+			if (open && checkFocusUrl.length > 0) {
+				if (starwish.currentOpenUrl.length > 0) {
+					openRoomArray([starwish.currentOpenUrl]);
+				}
+				else {
+					openRoomArray([checkFocusUrl]);
+				}
+				if (typeof(func) == 'function') {
+					func();
+				}
 			}
 		}
 	});
