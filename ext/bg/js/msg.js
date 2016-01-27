@@ -33,15 +33,16 @@ function portMsgListener(msg, port) {
 		case MSG_CODE.CHANGEURL: 			// change url
 			var url = msg.url;
 			// var tabid = msg.tabid;
-			openRoomArray([url]);
+			openRoomArray2([url]);
 			console.log('cnt:', starwish.openCount);
 			break;
 		case MSG_CODE.OPENURL: 			// open url
 			var url = msg.url;
 			// var tabid = msg.tabid;
-			if (starwish.openCount++ == 0) {
-				openRoomArray([url]);
-			}
+			// if (starwish.openCount++ == 0) {
+			// 	openRoomArray([url]);
+			// }
+			openRoomArray2([url]);
 			console.log('cnt:', starwish.openCount);
 			break;
 		case MSG_CODE.SIGNIN: 			// signin

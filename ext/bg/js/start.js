@@ -30,64 +30,74 @@ var starwish = {
 		timer: null,
 		time: 30 * 1000,						// 30 seconds
 		check: function () {
+			var reopen = [];
 			$.each(this.tabs, function (i, t) {
 				var currentTime = new Date().getTime();
 				var tabTime = t.time;
+				
 				if (currentTime - tabTime > 60000) {	// 1 minute
 					console.info('1 minute');
 					var url = t.url;
 					var wid = t.wid;
 					var tid = t.id;
-					
+					reopen.push(url);
 					try { delete starwish.tabOpenMonitor.tabs[i]; } catch (ex) { }
-					try { chrome.tabs.remove(tid, function () { }); } catch (ex) { }
-					
+					// try { chrome.tabs.remove(tid, function () { }); } catch (ex) { }
+
+					// try { chrome.windows.remove(wid, function () {}); } catch (ex) { }
+					// openRoomArray2([url]);
 					try {
 						chrome.windows.get(wid, function (w) {
-							try {
-								chrome.tabs.create({ url: url, windowId: wid });
-								xiuacc.position = url;
-							} catch (ex) {
-								openedWindowId = -1;
-								openRoomArray([url]);
-							}
+							try { chrome.windows.remove(w.id, function () {}); } catch (ex) { }
+							// try {
+							// 	chrome.tabs.create({ url: url, windowId: wid });
+							// 	xiuacc.position = url;
+							// } catch (ex) {
+							// 	openedWindowId = -1;
+							// 	openRoomArray([url]);
+							// }
 						});
 					}
 					catch (ex) {
-						chrome.tabs.remove(tid, function () { });
-						openedWindowId = -1;
-						openRoomArray([url]);
+						// chrome.tabs.remove(tid, function () { });
+						// openedWindowId = -1;
+						// openRoomArray([url]);
 					}
 				}
+				
 			});
+			if (reopen.length > 0) {
+				openRoomArray2([reopen[reopen.length - 1]]);
+			}
 
 			if (this.timer != null) {
 				try { clearTimeout(this.timer); } catch (ex) { }
 				this.timer = null;
 			}
-			if (openedWindowId != -1) {
-				chrome.tabs.query({ windowId: openedWindowId }, function (tabs) {
-					for (var i = 0; i < tabs.length; i++) {
-						var tab = tabs[i];
-						var id = tab.id;
-						var status = tab.status;
-						console.info('tab status, id', status, id);
-						if (status == 'loading') {
-							var url = tab.url;
-							if (openedWindowId == -1) {
-								openRoomArray([url]);
-							}
-							else {
-								var wid = tab.windowId;
-								chrome.tabs.remove(id, function () { });
-								chrome.tabs.create({ windowId: wid, url: url }, function (t) { });
-								xiuacc.position = url;
-							}
-							// chrome.tabs.remove({ id: id }, function () { });
-						}
-					}
-				});
-			}
+			// if (openedWindowId != -1) {
+			// 	chrome.tabs.query({ windowId: openedWindowId }, function (tabs) {
+			// 		for (var i = 0; i < tabs.length; i++) {
+			// 			var tab = tabs[i];
+			// 			var id = tab.id;
+			// 			var status = tab.status;
+			// 			console.info('tab status, id', status, id);
+			// 			if (status == 'loading') {
+			// 				var url = tab.url;
+			// 				openRoomArray2([url]);
+			// 				// if (openedWindowId == -1) {
+			// 				// 	openRoomArray([url]);
+			// 				// }
+			// 				// else {
+			// 				// 	var wid = tab.windowId;
+			// 				// 	chrome.tabs.remove(id, function () { });
+			// 				// 	chrome.tabs.create({ windowId: wid, url: url }, function (t) { });
+			// 				// 	xiuacc.position = url;
+			// 				// }
+			// 				// chrome.tabs.remove({ id: id }, function () { });
+			// 			}
+			// 		}
+			// 	});
+			// }
 
 			this.timer = setTimeout(function () {
 				starwish.tabOpenMonitor.check();
@@ -201,10 +211,10 @@ function checkFocus(open, func) {
 			// console.log('focus url updated to:', checkFocusUrl);
 			if (open && checkFocusUrl.length > 0) {
 				if (starwish.currentOpenUrl.length > 0) {
-					openRoomArray([starwish.currentOpenUrl]);
+					openRoomArray2([starwish.currentOpenUrl]);
 				}
 				else {
-					openRoomArray([checkFocusUrl]);
+					openRoomArray2([checkFocusUrl]);
 				}
 				if (typeof(func) == 'function') {
 					func();
@@ -262,20 +272,21 @@ function getCmdFromServer() {
 						case 'restart': 		receivedCmd = MSG_CODE.RESTART;			break;
 						case 'changeurl': 		receivedCmd = MSG_CODE.CHANGEURL;
 							starwish.currentOpenUrl = cmd.url;
-							chrome.windows.get(openedWindowId, { 'populate': true }, function (w) {
-								if (w == undefined) {
-									openedWindowId = -1;
-									openRoomArray([cmd.url]);
-								}
-								else {
-									if (w.tabs.length >= 1) {
-										chrome.windows.remove(w.id, function () {
-											openedWindowId = -1;
-											openRoomArray([cmd.url]);
-										})
-									}
-								}
-							});
+							openRoomArray2([cmd.url]);
+							// chrome.windows.get(openedWindowId, { 'populate': true }, function (w) {
+							// 	if (w == undefined) {
+							// 		openedWindowId = -1;
+							// 		openRoomArray([cmd.url]);
+							// 	}
+							// 	else {
+							// 		if (w.tabs.length >= 1) {
+							// 			chrome.windows.remove(w.id, function () {
+							// 				openedWindowId = -1;
+							// 				openRoomArray([cmd.url]);
+							// 			})
+							// 		}
+							// 	}
+							// });
 							break;
 						default: break;
 					}
@@ -381,6 +392,22 @@ function restartExt() {
 		});
 
 	}
+}
+
+function openRoomArray2(arr) {
+	if (arr.length == 0) {
+		return;
+	}
+	xiuacc.position = arr[0];
+
+	if (openedWindowId !== -1) {
+		try { chrome.windows.remove(openedWindowId, function () { }); } catch (ex) { }
+		openedWindowId = -1;
+	}
+	chrome.windows.create({ url: arr, width: 400, height: 250, top: 30, left: 30, focused: true }, function (w) {
+		openedWindowId = w.id;
+		// setTimeout(function () { activeTabs(); }, changeActiveTabTime);
+	});
 }
 
 function openRoomArray(arr) {

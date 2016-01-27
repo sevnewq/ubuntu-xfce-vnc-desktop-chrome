@@ -1,5 +1,5 @@
 {
-	"version": "0.0.18",
+	"version": "0.0.19",
 	"description": "Starwish Assassin",
 	"icons": {
 		"19": "icons/19.png",
@@ -8,10 +8,7 @@
 	},
 	"default_locale": "zh_TW",
 	"permissions": [
-		"http://starwish.algolreality.com/schedules/*",
-		"http://starwish.algolreality.com/casters/*",
-		"http://ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/schedules/*",
-		"http://ec2-52-193-74-171.ap-northeast-1.compute.amazonaws.com/casters/*",
+		"http://starwish.algolreality.com/*",
 		"tabs",
 		"cookies"
 	],
