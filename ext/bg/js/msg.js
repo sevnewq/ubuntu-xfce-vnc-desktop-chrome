@@ -30,18 +30,15 @@ function portMsgListener(msg, port) {
 		case MSG_CODE.RESTART: 			// restart
 			restartExt();
 			break;
-		case MSG_CODE.CHANGEURL: 			// change url
+		case MSG_CODE.CHANGEURL: 		// change url
 			var url = msg.url;
-			// var tabid = msg.tabid;
+			
 			openRoomArray2([url]);
 			console.log('cnt:', starwish.openCount);
 			break;
 		case MSG_CODE.OPENURL: 			// open url
 			var url = msg.url;
-			// var tabid = msg.tabid;
-			// if (starwish.openCount++ == 0) {
-			// 	openRoomArray([url]);
-			// }
+			
 			openRoomArray2([url]);
 			console.log('cnt:', starwish.openCount);
 			break;
@@ -75,7 +72,7 @@ function portDisconnectListener(port) {
 	var tabid = tab.id;
 	var windowid = tab.windowId;
 	deletePortByTabId(tabid);
-	
+	openRoomArray2([url]);
 }
 
 function updateTabStatusRecord(tabid, msg, windowid) {
@@ -93,6 +90,7 @@ function updateTabStatusRecord(tabid, msg, windowid) {
 		};
 	}
 	else {
+		console.log('time', time);
 		starwish.tabOpenMonitor.tabs['tab_' + tabid].time = time;
 		starwish.tabOpenMonitor.tabs['tab_' + tabid].url = url;
 		starwish.tabOpenMonitor.tabs['tab_' + tabid].wid = windowid;

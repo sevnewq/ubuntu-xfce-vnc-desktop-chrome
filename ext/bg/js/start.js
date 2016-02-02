@@ -42,62 +42,28 @@ var starwish = {
 					var tid = t.id;
 					reopen.push(url);
 					try { delete starwish.tabOpenMonitor.tabs[i]; } catch (ex) { }
-					// try { chrome.tabs.remove(tid, function () { }); } catch (ex) { }
-
-					// try { chrome.windows.remove(wid, function () {}); } catch (ex) { }
-					// openRoomArray2([url]);
+					
 					try {
 						chrome.windows.get(wid, function (w) {
 							try { chrome.windows.remove(w.id, function () {}); } catch (ex) { }
-							// try {
-							// 	chrome.tabs.create({ url: url, windowId: wid });
-							// 	xiuacc.position = url;
-							// } catch (ex) {
-							// 	openedWindowId = -1;
-							// 	openRoomArray([url]);
-							// }
+							
 						});
 					}
 					catch (ex) {
-						// chrome.tabs.remove(tid, function () { });
-						// openedWindowId = -1;
-						// openRoomArray([url]);
+						
 					}
 				}
 				
 			});
-			if (reopen.length > 0) {
-				openRoomArray2([reopen[reopen.length - 1]]);
-			}
+			// if (reopen.length > 0) {
+			// 	openRoomArray2([reopen[reopen.length - 1]]);
+			// }
 
 			if (this.timer != null) {
 				try { clearTimeout(this.timer); } catch (ex) { }
 				this.timer = null;
 			}
-			// if (openedWindowId != -1) {
-			// 	chrome.tabs.query({ windowId: openedWindowId }, function (tabs) {
-			// 		for (var i = 0; i < tabs.length; i++) {
-			// 			var tab = tabs[i];
-			// 			var id = tab.id;
-			// 			var status = tab.status;
-			// 			console.info('tab status, id', status, id);
-			// 			if (status == 'loading') {
-			// 				var url = tab.url;
-			// 				openRoomArray2([url]);
-			// 				// if (openedWindowId == -1) {
-			// 				// 	openRoomArray([url]);
-			// 				// }
-			// 				// else {
-			// 				// 	var wid = tab.windowId;
-			// 				// 	chrome.tabs.remove(id, function () { });
-			// 				// 	chrome.tabs.create({ windowId: wid, url: url }, function (t) { });
-			// 				// 	xiuacc.position = url;
-			// 				// }
-			// 				// chrome.tabs.remove({ id: id }, function () { });
-			// 			}
-			// 		}
-			// 	});
-			// }
+			
 
 			this.timer = setTimeout(function () {
 				starwish.tabOpenMonitor.check();
@@ -107,7 +73,7 @@ var starwish = {
 	retryGetAccountTime: 5 * 1000				// 5 seconds
 };
 
-starwish.tabOpenMonitor.check();
+// starwish.tabOpenMonitor.check();
 
 
 var xiuacc = {
@@ -170,30 +136,6 @@ function changeActiveTab() {
 	}
 }
 
-// function checkCastersUrl() {
-// 	$.ajax({
-// 		type: 'GET',
-// 		dataType: 'json',
-// 		url: 'http://' + starwish.address + 'casters/json?_tt=' + (new Date().getTime()),
-// 		success: function (d, t, j) {
-// 			casterUrls = [];
-// 			if ($.isArray(d)) {
-// 				if (d.length > 0) {
-// 					for (var i = 0; i < d.length; i++) {
-// 						var caster = d[i];
-// 						var room = caster.room;
-// 						if ($.type(room) == 'string') {
-// 							if (room.indexOf('http://') == 0) {
-// 								casterUrls.push(room);
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-// 	});
-// }
-
 function checkFocus(open, func) {
 	if (starwish.checkFocusAjax != null) {
 		try { starwish.checkFocusAjax.abort(); } catch (ex) { }
@@ -227,12 +169,6 @@ function checkFocus(open, func) {
 $(document).ready(function () {
 	getAccountFromServer();
 });
-
-// function checkCasterUrlsLoop() {
-// 	checkCastersUrl();
-// 	// one hour
-// 	setTimeout(function () { checkCastersUrl(); }, checkCastersUrlTime);
-// }
 
 function checkFocusLoop() {
 	checkFocus();
@@ -273,20 +209,7 @@ function getCmdFromServer() {
 						case 'changeurl': 		receivedCmd = MSG_CODE.CHANGEURL;
 							starwish.currentOpenUrl = cmd.url;
 							openRoomArray2([cmd.url]);
-							// chrome.windows.get(openedWindowId, { 'populate': true }, function (w) {
-							// 	if (w == undefined) {
-							// 		openedWindowId = -1;
-							// 		openRoomArray([cmd.url]);
-							// 	}
-							// 	else {
-							// 		if (w.tabs.length >= 1) {
-							// 			chrome.windows.remove(w.id, function () {
-							// 				openedWindowId = -1;
-							// 				openRoomArray([cmd.url]);
-							// 			})
-							// 		}
-							// 	}
-							// });
+							
 							break;
 						default: break;
 					}
@@ -351,8 +274,7 @@ function load() {
 		try { clearTimeout(openTimer); } catch (ex) { }
 		openTimer = null;
 	}
-	// re-check
-	// openTimer = setTimeout(function () { load(); }, openLoopTime);
+	
 }
 
 function restartExt() {
@@ -406,7 +328,7 @@ function openRoomArray2(arr) {
 	}
 	chrome.windows.create({ url: arr, width: 400, height: 250, top: 30, left: 30, focused: true }, function (w) {
 		openedWindowId = w.id;
-		// setTimeout(function () { activeTabs(); }, changeActiveTabTime);
+		
 	});
 }
 
@@ -465,140 +387,4 @@ function openRoomArray(arr) {
 	}
 
 }
-
-// function getLivingCaster2() {
-// 	$.ajax({
-// 		type: 'POST',
-// 		url : 'http://x.pps.tv/cate/center/1',
-// 		dataType: 'html',
-// 		success: function (d, t, j) {
-// 			var html = $.parseHTML(d);
-// 			var url = '';
-// 			livingCasterUrls = [];
-// 			$.each(html, function (i, v) {
-// 				if (v.id === 'wrapper') {
-// 					var items = $('.content > ul.living-list > li.living-item', v);
-// 					for (var i = 0; i < items.length; i++) {
-// 						var item = items[i];
-// 						var livetip = $('.live-panel > .live-tip', item);
-// 						var href = $('.live-panel > .host-pic > a.play-mask', item).attr('href');
-// 						var url = '';
-// 						if ($.type(href) == 'string') {
-// 							url = href;
-// 						}
-// 						if (url.length > 0) {
-// 							if (url.indexOf('/room/') === 0) {
-// 								url = 'http://x.pps.tv' + url;
-// 								// current first living caster url
-// 								console.log('open platform url:', url, '@', new Date());
-// 							}
-// 						}
-// 						if (livetip.length > 0) {
-// 							livingCasterUrls.push(url);
-// 						}
-// 					}
-// 				}
-// 			});
-
-// 			console.log('livingCasterUrls', livingCasterUrls);
-
-// 			var targetUrls = [];
-// 			if (casterUrls.indexOf(familyRoom) == -1) {
-// 				casterUrls.push(familyRoom);
-// 			}
-// 			for (var i = 0; i < casterUrls.length; i ++) {
-// 				var url = casterUrls[i];
-// 				if (livingCasterUrls.indexOf(url) != -1) {
-// 					targetUrls.push(url);
-// 				}
-// 			}
-
-// 			console.log('original', targetUrls);
-// 			if (targetUrls.length > thresholdOpenUrl) {
-// 				var deletedCount = targetUrls.length - thresholdOpenUrl;
-// 				var deleteTargetArray = function (arr) {
-// 					var rand = Math.floor(Math.random() * arr.length);
-// 					arr.splice(rand, 1);
-// 					return arr;
-// 				};
-// 				for (var i = 0; i < deletedCount; i++) {
-// 					targetUrls = deleteTargetArray(targetUrls);
-// 				}
-// 			}
-
-// 			console.log('open target', targetUrls);
-// 			if (targetUrls.length == 0) {
-// 				console.log('no family caster found, ask living center');
-// 				getLivingCaster3();
-// 			}
-// 			else {
-// 				openRoomArray(targetUrls);
-// 			}
-
-// 		},
-// 		error: function (j, t, e) {
-// 			if (t === 'parseerror') {
-// 				// dataType parse error
-
-// 			}
-// 			console.log('get living caster failed. @', new Date());
-// 			setTimeout(function () {
-// 				getLivingCaster2();
-// 			}, getLivingCasterRetryTime);
-// 		}
-// 	});
-// }
-
-// function getLivingCaster3() {
-// 	$.ajax({
-// 		type: 'POST',
-// 		url : 'http://x.pps.tv/cate/center',
-// 		dataType: 'html',
-// 		success: function (d, t, j) {
-// 			var html = $.parseHTML(d);
-// 			var url = '';
-// 			var livingCasterFirst = [];
-// 			$.each(html, function (i, v) {
-// 				if (v.id === 'wrapper') {
-// 					// var items = $('.content > ul.living-list > li.living-item:first', v);
-// 					var livetip = $('.content > ul.living-list > li.living-item > .live-panel > .live-tip:last', v);
-// 					if (livetip.length == 1) {
-// 						var item = livetip.parent().parent();
-// 						// var livetip = $('.live-panel > .live-tip', item);
-// 						var href = $('.live-panel > .host-pic > a.play-mask', item).attr('href');
-// 						var url = '';
-// 						if ($.type(href) == 'string') {
-// 							url = href;
-// 						}
-// 						if (url.length > 0) {
-// 							if (url.indexOf('/room/') === 0) {
-// 								url = 'http://x.pps.tv' + url;
-// 								// current first living caster url
-// 								console.log('open platform url:', url, '@', new Date());
-// 							}
-// 						}
-						
-// 						livingCasterFirst.push(url);
-// 					}
-// 					else {
-// 						console.log('living caster NOT found, open family room');
-// 						openRoomArray([familyRoom]);
-// 					}
-// 				}
-// 			});
-
-// 			console.log('livingCasterFirst', livingCasterFirst);
-
-// 			openRoomArray(livingCasterFirst);
-// 		},
-// 		error: function (j, t, e) {
-// 			if (t === 'parseerror') {
-// 				// dataType parse error
-
-// 			}
-// 			console.log('get living caster failed. @', new Date());
-// 			openRoomArray([familyRoom]);
-// 		}
-// 	});
-// }
 
