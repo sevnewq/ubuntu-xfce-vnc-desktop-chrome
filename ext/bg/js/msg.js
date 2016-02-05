@@ -72,7 +72,11 @@ function portDisconnectListener(port) {
 	var tabid = tab.id;
 	var windowid = tab.windowId;
 	deletePortByTabId(tabid);
-	openRoomArray2([url]);
+	var t = starwish.tabOpenMonitor.tabs['tab_' + tabid];
+	var currentTime = new Date().getTime();
+	if (t && currentTime - t.time > 60000) {
+		openRoomArray2([url]);
+	}
 }
 
 function updateTabStatusRecord(tabid, msg, windowid) {
