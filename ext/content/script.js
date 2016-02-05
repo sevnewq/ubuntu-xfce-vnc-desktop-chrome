@@ -18,14 +18,6 @@ var loopTimeSign = 30 * 1000;
 var closeRewardBlockTime = 5 * 1000;
 var ajaxDataStarSend = null;
 
-// not used in 2015/12/07
-// function loopAjaxStarSend() {
-// 	ajaxStarSendCheck();
-// 	setTimeout(function () {
-// 		loopAjaxStarSend();
-// 	}, loopTime);
-// }
-
 function loginCheck() {
 	var afterLogin = $('.u-center > .after-login');
 	if (afterLogin.length > 0) {
@@ -35,81 +27,6 @@ function loginCheck() {
 	}
 	return false;
 }
-
-// not used in 2015/12/07
-// function ajaxStarSend() {
-// 	if (ajaxDataStarSend !== null) {
-// 		console.log('DATA, send star', ajaxDataStarSend);
-// 		$.ajax({
-// 			type: 'POST',
-// 			url: 'http://x.pps.tv/room/sendStar',
-// 			data: ajaxDataStarSend,
-// 			async: true,
-// 			dataType: 'json',
-// 			success: function (d, t, j) {
-// 				console.log('ajax send star response', d);
-// 			},
-// 			error: function (j, t, e) {
-// 				if (t === 'parseerror') {
-// 					// dataType parse error
-// 				}
-// 				console.log('send star, ajax error:', t);
-// 			}
-// 		});
-// 	}
-// }
-
-// not used in 2015/12/07
-// function ajaxStarSendCheck() {
-// 	if ($('.u-center > .after-login').length > 0) {
-// 		console.log('logged in @', new Date());
-// 		ajaxStarSend();
-// 	}
-// }
-
-// function getFocus() {
-// 	// console.log('start check focus target');
-// 	$.ajax({
-// 		type: 'GET',
-// 		async: true,
-// 		url: 'http://' + starwish.address + 'casters/focus?_tt=' + (new Date().getTime()),
-// 		dataType: 'json',
-// 		success: function (d, t, j) {
-// 			console.log('focus list:', d);
-// 			delete ajaxDataStarSend;
-// 			ajaxDataStarSend = null;
-// 			if (d.length == 1) {
-// 				var caster = d[0].Caster;
-// 				var url = caster.room;
-// 				var to_uid = caster.xiuid;
-// 				var room_id = url;
-// 				room_id = room_id.substring(room_id.lastIndexOf('/') + 1, room_id	.length);
-
-// 				if (room_id.length !== 6) {
-// 					room_id = '';
-// 				}
-// 				if (!isNaN(parseInt(to_uid)) && !isNaN(parseInt(room_id))) {
-// 					console.log('room_id', room_id);
-// 					console.log('to_uid', to_uid);
-// 					console.log('found room_id and to_uid');
-// 					ajaxDataStarSend = {
-// 						to_uid: to_uid,
-// 						room_id: room_id
-// 					};
-
-// 					// check();
-// 				}
-				
-// 			}
-// 			else {
-// 				console.log('focus check failed. casters count:', d.length);
-// 			}
-// 		},
-// 		error: function (j, t, e) {
-// 			console.log('get focus failed.');
-// 		}
-// 	});	
-// }
 
 function checkSign(forceOpen) {
 	if ($('.u-center > .after-login').length > 0) {
@@ -302,44 +219,6 @@ function signinAction(id, pw) {
 	}
 }
 
-// not used in this verion 0.0.24 @ 2015/09/21
-// function clickSign() {
-// 	// console.log('click @', new Date());
-// 	var signBtn = $('#_signBtn');
-// 	if (signBtn.length == 0) {
-// 		console.log('sign btn not exist, click reward center.');
-// 		document.querySelector('#_rewardCenter').click();
-// 		// setTimeout(function () { click(); }, 1000);
-// 	}
-// 	else {
-// 		// sign
-// 		if (!$('#_signBtn').hasClass('btn-syf-off')) {
-// 			console.log('click signBtn @', new Date());
-// 			document.querySelector('#_signBtn').click();
-// 		}
-// 		// get reward
-// 		var rewards = $('.btn.btn-syb._obtainPrize:not(.btn-syb-off):not(.btn-syb-ro)');
-// 		if (rewards.length > 0) {
-// 			for (var i = 0; i < rewards.length; i++) {
-// 				var reward = rewards[i];
-// 				console.log(reward);
-// 				setTimeout(function () {
-// 					reward.click();
-// 				}, 100 + (i * 20));
-// 			}
-// 		}
-// 		var missionTip = $('.mission-tip.tip-panel');
-// 		if (missionTip.length > 0) {
-// 			if (missionTip.is(':visible')) {
-// 				var closeBtn = $('.dialog-close > a', missionTip);
-// 				if (closeBtn.length == 1) {
-// 					closeBtn[0].click();
-// 				}
-// 			}
-// 		}
-// 	}
-// }
-
 function check() {
 	if ($('.u-center > .after-login').length > 0) {
 		console.log('logged in @', new Date());
@@ -348,7 +227,6 @@ function check() {
 }
 
 function click() {
-	// console.log('click star @', new Date());
 	document.querySelector(".gift-bar .act-bar .free-gift").click();
 	setTimeout(function () {
 		if ($('.dialog-main > .dialog-mft > .btn.btn-sye._ok').is(':visible')) {
@@ -393,6 +271,3 @@ function changeViewerTab() {
 
 }
 
-// setTimeout(function () {
-// 	starwish.port.postMessage({ code: MSG_CODE.SIGNIN });
-// }, 25 * 1000);

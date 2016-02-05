@@ -122,6 +122,7 @@ function sendGift(gift) {
 		"wp_lw_xiangjiao",		// 香蕉
 		"wp_lw_bingjiling",		// 冰淇淋. 雪糕
 		// 活動，免費
+		"chocolate",			// 節日巧克力
 		"wp_lw_shitou",			// 石頭, 石塊 （萬聖節）
 		"wp_lw_zhumengyu",		// 逐夢羽 （年度主播）
 		"wp_lw_lianlizhi",		// 連理枝
@@ -214,11 +215,6 @@ function findLastName() {
 }
 
 function setNewNickname(name) {
-
-	// $('.after-login .u-info .figure-panel .drop-name > .ico.ico-edit');	// edit icon
-	// $('.after-login .u-info .figure-panel .drop-name > .name-txt');	// check display style
-	// $('.after-login .u-info .figure-panel .drop-name > .name-txt').children('.ico.ico-save');	// save icon
-	// $('.after-login .u-info .figure-panel .drop-name > .name-txt').children('input[type="text"]');	// new name
 
 	var editZone = $('.after-login .u-info .figure-panel .drop-name > .name-txt');
 	if (editZone.css('display') == 'none') {
