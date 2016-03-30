@@ -126,17 +126,24 @@ function sendGift(gift) {
 		"wp_lw_shitou",			// 石頭, 石塊 （萬聖節）
 		"wp_lw_zhumengyu",		// 逐夢羽 （年度主播）
 		"wp_lw_lianlizhi",		// 連理枝
+		"wp_lw_sapling",		// 小苗苗（2016春季之星）
 		"wp_gz_jueshi",			// 爵士（禮包，打卡）(需要 mouseover，才會出現使用的按鈕 element，暫時無法支援)
 		// 守護
 		"wp_lw_qiuhun",			// 求婚
 		"wp_lw_baimawz",		// 白馬王子
+		"wp_lw_cupid",			// 丘比特
+		"wp_lw_yingxionjiumei",	// 英雄救美
 		// 貴族
 		"wp_lw_youlun",			// 郵輪
 		"wp_lw_loveshang",		// 愛的火山
 		"wp_lw_dainifei",		// 帶你飛
+		"wp_lw_shechipin",		// 奢侈品
+		"wp_lw_huanqiulvxin",	// 環球旅行
 		// 常規
 		"wp_lw_xyc",			// 星運翅（年度主播）
 		"wp_lw_xingyunxing",	// 幸運星（年度主播）
+		"wp_lx_lstar",			// 幸運星（2016春季之星）
+		"wp_lw_peach",			// 桃花（2016春季之星）
 		"wp_lw_huangguan",		// 皇冠
 		"wp_lw_reqiqiu",		// 熱氣球
 		"wp_lw_zuanshi",		// 鑽石
