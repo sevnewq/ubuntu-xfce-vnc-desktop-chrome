@@ -1,5 +1,5 @@
 {
-	"version": "0.0.23",
+	"version": "0.0.25",
 	"description": "Starwish Assassin",
 	"icons": {
 		"19": "icons/19.png",
@@ -9,6 +9,7 @@
 	"default_locale": "zh_TW",
 	"permissions": [
 		"http://starwish.algolreality.com/*",
+		"http://x.pps.tv/room/*",
 		"tabs",
 		"cookies"
 	],
@@ -34,7 +35,8 @@
 		}
 	],
 	"web_accessible_resources": [
-		"bg/js/lib/jquery/jquery-1.11.3.min.map"
+		"bg/js/lib/jquery/jquery-1.11.3.min.map",
+		"content/inject.js"
 	],
 	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
 	"manifest_version": 2

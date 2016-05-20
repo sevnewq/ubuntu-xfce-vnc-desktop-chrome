@@ -83,25 +83,35 @@ function clickSign2(forceOpen) {
 		for (var i = 0; i < btns.length; i++) {
 			var btn = btns[i];
 			setTimeout(function () {
-				console.log('click reward btn');
+				// console.log('click reward btn');
 				btn.click();
 			}, 100 + (i * 20));
 		}
 	}
-	else {
-		console.info('reward NOT found');
-	}
 
 	// sign
 	var sign = $('#_sign.btn.btn-syb.btn-clock-in');
-	if (sign.siblings('.clock-in-tip.tip-panel').length == 0) {
-		console.log('click sign btn');
+	var signed = false;
+	try {
+		if (sign.find('span').text() == '已打卡') {
+			signed = true;
+			// console.log('signed, not click sign button');
+		}
+	} catch (ex) { }
+	
+	if (sign.siblings('.clock-in-tip.tip-panel').length == 0 && !signed) {
+		// console.log('click sign btn');
 		sign[0].click();
 	}
 	var block = $('.clock-in-tip.tip-panel ._cardRewardList > .may-clock > a.block-link');
-	if (block.length > 0) {
-		console.log('sign block click', block);
+	if (block.length > 0 && !signed) {
+		// console.log('sign block click', block);
 		block[0].click();
+	}
+	var clockBlock = $('#_clockInTip');
+	if (clockBlock.length > 0 && !signed) {
+		// console.log('sign clocktip click', clockBlock);
+		sign[0].click();
 	}
 
 	// follow
@@ -114,11 +124,15 @@ function clickSign2(forceOpen) {
 	setTimeout(function () {
 		if ($('#_rewardCenter > .mission-tip._headerItem.tip-panel').is(':visible')) {
 			var close = $('#_rewardCenter > .mission-tip._headerItem.tip-panel > span.dialog-close > a');
-			console.log('close reward center panel');
+			// console.log('close reward center panel');
 			close[0].click();
 		}
 		if (sign.siblings('.clock-in-tip.tip-panel').is(':visible')) {
-			console.log('close sign panel');
+			// console.log('close sign panel');
+			sign[0].click();
+		}
+		if ($('#_clockInTip').is(':visible')) {
+			// console.log('close sign clocktip panel');
 			sign[0].click();
 		}
 	}, closeRewardBlockTime);

@@ -99,8 +99,22 @@ function portMessageListener(msg) {
 			break;
 		case MSG_CODE.CHANGEURL:
 			window.location.href = cmd.cmd.url;
+			break;
+		case MSG_CODE.CLICKSENDGIFTBUTTON:
+			// click send gift button
+			// console.log('click send gift button');
+			clickSendGiftButton();
+			break;
 		default:
 			break;
+	}
+}
+
+function clickSendGiftButton() {
+	// send button
+	var btn = $('.gift-bar .act-bar .btn.btn-sye._sendGift');
+	if (btn.length == 1) {
+		btn[0].click();
 	}
 }
 
@@ -184,6 +198,7 @@ function sendGift(gift) {
 		console.info('doesn\'t has this gift.');
 		return;
 	}
+
 	$('#_bagsBar ul ._giftItem.gift-selected._clickSelect').removeClass('gift-selected _clickSelect');
 	img.parent()[0].click();
 	// target gift current number
@@ -198,12 +213,12 @@ function sendGift(gift) {
 	else {
 		val.val('1');
 	}
-	
-	// send button
-	var btn = $('.gift-bar .act-bar .btn.btn-sye._sendGift');
-	if (btn.length == 1) {
-		btn[0].click();
-	}
+
+	// create inject script, update gift number
+	starwish.port.postMessage({
+		code: MSG_CODE.CREATECLICKSENGIFTSCRIPT
+	});
+
 }
 
 function findLastName() {

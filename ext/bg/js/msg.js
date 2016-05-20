@@ -58,6 +58,18 @@ function portMsgListener(msg, port) {
 			}
 			updateTabStatusRecord(tabid, msg, port.sender.tab.windowId);
 			break;
+		case MSG_CODE.CREATECLICKSENGIFTSCRIPT:
+			// create click send gift script
+			chrome.tabs.executeScript({
+				file: 'content/inject.js'
+			});
+			// click send gift button
+			setTimeout(function () {
+				starwish.port.postMessage({
+					code: MSG_CODE.CLICKSENDGIFTBUTTON
+				});
+			}, 100);
+			break;
 		default:
 			break;
 	}
