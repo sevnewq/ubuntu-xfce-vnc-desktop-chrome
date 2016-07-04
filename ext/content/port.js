@@ -143,6 +143,7 @@ function sendGift(gift) {
 		"wp_lw_sapling",		// 小苗苗（2016春季之星）
 		"wp_gz_jueshi",			// 爵士（禮包，打卡）(需要 mouseover，才會出現使用的按鈕 element，暫時無法支援)
 		"wp_lw_assistance",		// 最佳助攻（2016奇秀歐洲杯爭霸賽）
+		"wp_lw_xiajixing"
 		// 守護
 		"wp_lw_qiuhun",			// 求婚
 		"wp_lw_baimawz",		// 白馬王子
@@ -164,6 +165,10 @@ function sendGift(gift) {
 		"wp_lw_france",			// 法国之星（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_england",		// 英格兰之星（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_spain",			// 西班牙之星（2016奇秀歐洲杯爭霸賽）
+		"wp_lw_xiajipiao",		// 夏季票（2016奇秀夏季之星）
+		"wp_lw_xiehou",			// 邂逅
+		"wp_lx_drugstop",		// 藥不能停
+		"wp_lw_shengridangao",	// 生日蛋糕
 		"wp_lw_huangguan",		// 皇冠
 		"wp_lw_reqiqiu",		// 熱氣球
 		"wp_lw_zuanshi",		// 鑽石
@@ -173,6 +178,7 @@ function sendGift(gift) {
 		"wp_lw_runhoubao",		// 潤喉寶
 		"wp_lw_ygb",			// 螢光棒
 		"wp_lw_momoda",			// 麼麼噠
+		"wp_lw_momodatwo",		// 麼麼噠（新）
 		"wp_lw_dabai",			// 大白
 		"wp_lw_guzhang",		// 鼓掌
 		"wp_lw_guibinpiao",		// 粉絲票
