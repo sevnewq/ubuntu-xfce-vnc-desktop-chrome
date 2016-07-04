@@ -143,7 +143,7 @@ function sendGift(gift) {
 		"wp_lw_sapling",		// 小苗苗（2016春季之星）
 		"wp_gz_jueshi",			// 爵士（禮包，打卡）(需要 mouseover，才會出現使用的按鈕 element，暫時無法支援)
 		"wp_lw_assistance",		// 最佳助攻（2016奇秀歐洲杯爭霸賽）
-		"wp_lw_xiajixing"
+		"wp_lw_xiajixing",		// 夏季星（2016奇秀夏季之星）
 		// 守護
 		"wp_lw_qiuhun",			// 求婚
 		"wp_lw_baimawz",		// 白馬王子
