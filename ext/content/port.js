@@ -213,24 +213,30 @@ function sendGift(gift) {
 
 	$('#_bagsBar ul ._giftItem.gift-selected._clickSelect').removeClass('gift-selected _clickSelect');
 	img.parent()[0].click();
+	img.parent().parent().addClass('gift-selected');
 	// target gift current number
 	
 	var number = img.siblings('span.num').html();
 
 	// want send number
-	var val = $('.gift-bar .act-bar .input-text > input.value._giftNumTxt');
-	if (!isNaN(parseInt(number))) {
-		val.val(number);
-	}
-	else {
-		val.val('1');
-	}
+	var val = $('.gift-bar .act-bar .input-text > input.value._giftNumTxt').val('1');
+	// if (!isNaN(parseInt(number))) {
+	// 	val.val(number);
+	// }
+	// else {
+	// 	val.val('1');
+	// }
 
 	// create inject script, update gift number
 	starwish.port.postMessage({
 		code: MSG_CODE.CREATECLICKSENGIFTSCRIPT
 	});
 
+	// // send button
+	// var btn = $('.gift-bar .act-bar .btn.btn-sye._sendGift');
+	// if (btn.length == 1) {
+	// 	btn[0].click();
+	// }
 }
 
 function findLastName() {
