@@ -166,6 +166,7 @@ function sendGift(gift) {
 		"wp_lw_england",		// 英格兰之星（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_spain",			// 西班牙之星（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_xiajipiao",		// 夏季票（2016奇秀夏季之星）
+		"wp_lw_yiliweikezi",	// 冰冻味可滋
 		"wp_lw_xiehou",			// 邂逅
 		"wp_lx_drugstop",		// 藥不能停
 		"wp_lw_shengridangao",	// 生日蛋糕
@@ -175,8 +176,10 @@ function sendGift(gift) {
 		"wp_lw_lanpangzi",		// 藍胖子
 		"wp_lw_bajie",			// 八戒
 		"wp_lw_meiqui",			// 玫瑰
+		"wp_lw_meiquinew",		// 玫瑰（新）
 		"wp_lw_runhoubao",		// 潤喉寶
 		"wp_lw_ygb",			// 螢光棒
+		"wp_lw_xygb",			// 螢光棒（新）
 		"wp_lw_momoda",			// 麼麼噠
 		"wp_lw_momodatwo",		// 麼麼噠（新）
 		"wp_lw_dabai",			// 大白
