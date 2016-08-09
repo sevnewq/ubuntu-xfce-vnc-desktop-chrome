@@ -139,11 +139,12 @@ function sendGift(gift) {
 		"chocolate",			// 節日巧克力
 		"wp_lw_shitou",			// 石頭, 石塊 （萬聖節）
 		"wp_lw_zhumengyu",		// 逐夢羽 （年度主播）
-		"wp_lw_lianlizhi",		// 連理枝
+		"wp_lw_lianlizhi",		// 連理枝（2015七夕）
 		"wp_lw_sapling",		// 小苗苗（2016春季之星）
 		"wp_gz_jueshi",			// 爵士（禮包，打卡）(需要 mouseover，才會出現使用的按鈕 element，暫時無法支援)
 		"wp_lw_assistance",		// 最佳助攻（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_xiajixing",		// 夏季星（2016奇秀夏季之星）
+		"wp_lw_xlianlizhi",		// 連理枝（2016奇秀七夕）
 		// 守護
 		"wp_lw_qiuhun",			// 求婚
 		"wp_lw_baimawz",		// 白馬王子
@@ -166,9 +167,11 @@ function sendGift(gift) {
 		"wp_lw_england",		// 英格兰之星（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_spain",			// 西班牙之星（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_xiajipiao",		// 夏季票（2016奇秀夏季之星）
+		"wp_lw_xbiyiniao",		// 比翼鳥（2016奇秀七夕）
 		"wp_lw_yiliweikezi",	// 冰冻味可滋
 		"wp_lw_xiehou",			// 邂逅
 		"wp_lx_drugstop",		// 藥不能停
+		"wp_lw_drugstop",		// 藥不能停
 		"wp_lw_shengridangao",	// 生日蛋糕
 		"wp_lw_huangguan",		// 皇冠
 		"wp_lw_reqiqiu",		// 熱氣球
