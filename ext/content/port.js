@@ -189,6 +189,7 @@ function sendGift(gift) {
 		"wp_lw_guzhang",		// 鼓掌
 		"wp_lw_guibinpiao",		// 粉絲票
 		"wp_lw_xinyongka",		// 信用卡
+		"wp_lw_xxinyongka",		// 信用卡
 		"wp_lw_pingguo",		// 頻果
 		"wp_lw_mingpaibao",		// 名牌包
 		"wp_lw_wanjuxiong",		// 玩具熊
