@@ -174,6 +174,7 @@ function sendGift(gift) {
 		"wp_lw_drugstop",		// 藥不能停
 		"wp_lw_shengridangao",	// 生日蛋糕
 		"wp_lw_huangguan",		// 皇冠
+		"wp_lw_xhuangguan",		// 皇冠
 		"wp_lw_reqiqiu",		// 熱氣球
 		"wp_lw_zuanshi",		// 鑽石
 		"wp_lw_lanpangzi",		// 藍胖子
