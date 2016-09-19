@@ -145,6 +145,7 @@ function sendGift(gift) {
 		"wp_lw_assistance",		// 最佳助攻（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_xiajixing",		// 夏季星（2016奇秀夏季之星）
 		"wp_lw_xlianlizhi",		// 連理枝（2016奇秀七夕）
+		"wp_lw_qiujixing",		// 秋季星（2016奇秀秋季之星）
 		// 守護
 		"wp_lw_qiuhun",			// 求婚
 		"wp_lw_baimawz",		// 白馬王子
@@ -168,6 +169,8 @@ function sendGift(gift) {
 		"wp_lw_spain",			// 西班牙之星（2016奇秀歐洲杯爭霸賽）
 		"wp_lw_xiajipiao",		// 夏季票（2016奇秀夏季之星）
 		"wp_lw_xbiyiniao",		// 比翼鳥（2016奇秀七夕）
+		"wp_lw_zhadan",			// 幸運小炸炸（2016奇秀秋季之星）
+		"wp_lw_qiujipiao",		// 秋季票（2016奇秀秋季之星）
 		"wp_lw_yiliweikezi",	// 冰冻味可滋
 		"wp_lw_xiehou",			// 邂逅
 		"wp_lx_drugstop",		// 藥不能停
