@@ -151,13 +151,16 @@ function sendGift(gift) {
 		"wp_lw_baimawz",		// 白馬王子
 		"wp_lw_cupid",			// 丘比特
 		"wp_lw_yingxionjiumei",	// 英雄救美
+		"wp_lw_herosavebeauty",	// 英雄救美（新）
 		// 貴族
 		"wp_lw_youlun",			// 郵輪
+		"wp_lw_haohuayoulun",	// 豪華郵輪（新）
 		"wp_lw_loveshang",		// 愛的火山
 		"wp_lw_dainifei",		// 帶你飛
 		"wp_lw_shechipin",		// 奢侈品
 		"lw_wp_shechipin",		// 奢侈品
 		"wp_lw_huanqiulvxin",	// 環球旅行
+		"wp_lw_langmanhunli",	// 浪漫婚禮
 		// 常規
 		"wp_lw_xyc",			// 星運翅（年度主播）
 		"wp_lw_xingyunxing",	// 幸運星（年度主播）
@@ -204,6 +207,7 @@ function sendGift(gift) {
 		"wp_lw_zailaiyishou",	// 再來一首
 		"wp_lw_ningmeng",		// 檸檬
 		"wp_lw_bangbangtang",	// 棒棒糖
+		"wp_lw_bbtnew",			// 棒棒糖（新）
 		"wp_lw_xiang"			// 翔
 	];
 
